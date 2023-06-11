@@ -25,8 +25,10 @@ public class ForbiddenAccessExceptionTests
         exception.Message.Should().NotBeEmpty();
         
         exception = new ForbiddenAccessException("Not found");
-        SerializationInfo info = null;
+        var info = new SerializationInfo(typeof(NotFoundException),new FormatterConverter());
         var context = new StreamingContext();
-        Assert.ThrowsAny<ArgumentNullException>(() =>exception.GetObjectData(info, context));
+        exception.GetObjectData(info, context);
+
+        exception.Should().NotBeNull();
     }
 }

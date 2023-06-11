@@ -44,12 +44,8 @@ public class ValidationException : Exception
     protected ValidationException(SerializationInfo info, StreamingContext context)
         : base(info, context)
     {
-        ValidationErrorResponse = new ValidationErrorResponse
-        {
-            StatusCode = 422,
-            StatusPhrase = "Bad request",
-            Timestamp = DateTime.Now
-        };
+        ValidationErrorResponse = (ValidationErrorResponse)info.GetValue(nameof(ValidationErrorResponse), typeof(ValidationErrorResponse));
+        
     }
     
     public override void GetObjectData(SerializationInfo info, StreamingContext context)
