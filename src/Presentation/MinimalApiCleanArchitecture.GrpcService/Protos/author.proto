@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+option csharp_namespace = "MinimalApiCleanArchitecture.GrpcService.Protos";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+service AuthorProtoService {
+  rpc GetAuthors(google.protobuf.Empty) returns (GetAllAuthorsProtoResponse);
+  rpc GetAuthorById(GetAuthorByIdProtoRequest) returns (GetAuthorByIdProtoResponse);
+  rpc CreateAuthor(CreateAuthorProtoRequest) returns (CreateAuthorProtoResponse);
+  rpc UpdateAuthor(UpdateAuthorProtoRequest) returns (UpdateAuthorProtoResponse);
+  rpc DeleteAuthor(DeleteAuthorProtoRequest) returns (DeleteAuthorProtoResponse);
+}
+
+message AuthorProtoModel {
+  string id = 1;
+  string name = 2;
+  string bio = 3;
+  google.protobuf.Timestamp dateOfBirth = 4;
+}
+message GetAllAuthorsProtoResponse
+{
+  repeated AuthorProtoModel authors = 1;
+};
+
+message GetAuthorByIdProtoRequest{
+  string authorId =1;
+}
+message GetAuthorByIdProtoResponse
+{
+  AuthorProtoModel author = 1;
+};
+
+message CreateAuthorProtoRequest {
+  string firstName = 1;
+  string lastName = 2;
+  string bio = 3;
+  google.protobuf.Timestamp dateOfBirth = 4;
+};
+
+message CreateAuthorProtoResponse {
+ AuthorProtoModel author = 1;
+};
+
+message UpdateAuthorProtoRequest {
+  string id = 1;
+  string firstName = 2;
+  string lastName = 3;
+  string bio = 4;
+  google.protobuf.Timestamp dateOfBirth = 5;
+};
+message UpdateAuthorProtoResponse {
+ bool status = 1;
+};
+
+message DeleteAuthorProtoRequest {
+  string id = 1;
+}
+
+message DeleteAuthorProtoResponse {
+  bool status = 1;
+}
+

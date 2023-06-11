@@ -11,7 +11,7 @@ using MinimalApiCleanArchitecture.Persistence;
 
 namespace MinimalApiCleanArchitecture.Persistence.Migrations
 {
-    [DbContext(typeof(ThoughtfulDbContext))]
+    [DbContext(typeof(MinimalApiCleanArchitectureDbContext))]
     [Migration("20230611071219_Initial")]
     partial class Initial
     {

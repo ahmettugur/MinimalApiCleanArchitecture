@@ -5,9 +5,9 @@ namespace MinimalApiCleanArchitecture.Persistence.Repositories;
 
 public class GenericWriteRepository<T> : IGenericWriteRepository<T> where T : BaseEntity
 {
-    private readonly ThoughtfulDbContext dbContext;
+    private readonly MinimalApiCleanArchitectureDbContext dbContext;
 
-    public GenericWriteRepository(ThoughtfulDbContext dbContext)
+    public GenericWriteRepository(MinimalApiCleanArchitectureDbContext dbContext)
     {
         this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }

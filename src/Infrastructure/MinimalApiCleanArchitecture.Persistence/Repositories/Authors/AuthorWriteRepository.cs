@@ -5,7 +5,7 @@ namespace MinimalApiCleanArchitecture.Persistence.Repositories.Authors;
 
 public class AuthorWriteRepository: GenericWriteRepository<Author>, IAuthorWriteRepository
 {
-    public AuthorWriteRepository(ThoughtfulDbContext dbContext) : base(dbContext)
+    public AuthorWriteRepository(MinimalApiCleanArchitectureDbContext dbContext) : base(dbContext)
     {
     }
 }

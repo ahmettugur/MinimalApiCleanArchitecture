@@ -7,9 +7,9 @@ namespace MinimalApiCleanArchitecture.Persistence.Repositories;
 
 public class GenericReadRepository<T> : IGenericReadRepository<T> where T : BaseEntity
 {
-    private readonly ThoughtfulDbContext dbContext;
+    private readonly MinimalApiCleanArchitectureDbContext dbContext;
 
-    public GenericReadRepository(ThoughtfulDbContext dbContext)
+    public GenericReadRepository(MinimalApiCleanArchitectureDbContext dbContext)
     {
         this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }

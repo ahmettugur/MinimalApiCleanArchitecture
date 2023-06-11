@@ -5,7 +5,7 @@ namespace MinimalApiCleanArchitecture.Persistence.Repositories.Blogs;
 
 public class BlogWriteRepository: GenericWriteRepository<Blog>,IBlogWriteRepository
 {
-    public BlogWriteRepository(ThoughtfulDbContext dbContext) : base(dbContext)
+    public BlogWriteRepository(MinimalApiCleanArchitectureDbContext dbContext) : base(dbContext)
     {
     }
     

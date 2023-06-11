@@ -5,9 +5,9 @@ using MinimalApiCleanArchitecture.Domain.Model;
 
 namespace MinimalApiCleanArchitecture.Persistence;
 
-public class ThoughtfulDbContext : DbContext
+public class MinimalApiCleanArchitectureDbContext : DbContext
 {
-    public ThoughtfulDbContext(DbContextOptions options) : base(options)
+    public MinimalApiCleanArchitectureDbContext(DbContextOptions options) : base(options)
     {
 
     }
@@ -16,12 +16,12 @@ public class ThoughtfulDbContext : DbContext
     public DbSet<Author> Authors { get; set; }
 }
 
-public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<ThoughtfulDbContext>
+public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<MinimalApiCleanArchitectureDbContext>
 {
-    public ThoughtfulDbContext CreateDbContext(string[] args)
+    public MinimalApiCleanArchitectureDbContext CreateDbContext(string[] args)
     {
         var connectionString = Environment.GetEnvironmentVariable("Default");
-        var builder = new DbContextOptionsBuilder<ThoughtfulDbContext>();
+        var builder = new DbContextOptionsBuilder<MinimalApiCleanArchitectureDbContext>();
         if (string.IsNullOrEmpty(connectionString))
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
@@ -32,6 +32,6 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<Thoughtful
             connectionString = configuration.GetConnectionString("Default");
         }
         builder.UseSqlServer(connectionString);
-        return new ThoughtfulDbContext(builder.Options);
+        return new MinimalApiCleanArchitectureDbContext(builder.Options);
     }
 }

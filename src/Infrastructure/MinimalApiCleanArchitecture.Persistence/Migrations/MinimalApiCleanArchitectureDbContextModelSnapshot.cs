@@ -10,8 +10,8 @@ using MinimalApiCleanArchitecture.Persistence;
 
 namespace MinimalApiCleanArchitecture.Persistence.Migrations
 {
-    [DbContext(typeof(ThoughtfulDbContext))]
-    partial class ThoughtfulDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(MinimalApiCleanArchitectureDbContext))]
+    partial class MinimalApiCleanArchitectureDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

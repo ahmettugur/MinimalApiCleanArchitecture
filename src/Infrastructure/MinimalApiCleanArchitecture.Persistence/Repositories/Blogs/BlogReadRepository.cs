@@ -5,7 +5,7 @@ namespace MinimalApiCleanArchitecture.Persistence.Repositories.Blogs;
 
 public class BlogReadRepository: GenericReadRepository<Blog>,IBlogReadRepository
 {
-    public BlogReadRepository(ThoughtfulDbContext dbContext) : base(dbContext)
+    public BlogReadRepository(MinimalApiCleanArchitectureDbContext dbContext) : base(dbContext)
     {
     }
 }

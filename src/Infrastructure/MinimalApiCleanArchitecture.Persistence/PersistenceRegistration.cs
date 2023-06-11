@@ -17,7 +17,7 @@ public static class PersistenceRegistration
         services.AddTransient<IBlogReadRepository, BlogReadRepository>();
         services.AddTransient<IBlogWriteRepository, BlogWriteRepository>();
         
-        services.AddDbContext<ThoughtfulDbContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("Default")));
+        services.AddDbContext<MinimalApiCleanArchitectureDbContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("Default")));
 
         return services;
     }

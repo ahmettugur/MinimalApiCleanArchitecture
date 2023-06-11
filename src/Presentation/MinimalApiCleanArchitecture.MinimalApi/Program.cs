@@ -1,6 +1,17 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+using Common.Logging;
+using MinimalApiCleanArchitecture.MinimalApi.Extensions;
+using Serilog;
 
-app.MapGet("/", () => "Hello World!");
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog();
+Log.Logger = SeriLogger.CustomLoggerConfiguration(builder.Configuration);
+
+builder.Services.AddServices(builder);
+builder.RegisterModules();
+
+var app = builder.Build();
+app.ConfigureApplication();
+app.MapEndpoints();
 
 app.Run();

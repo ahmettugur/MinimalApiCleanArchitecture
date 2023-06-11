@@ -6,4 +6,17 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+        <PackageReference Include="Consul" Version="1.6.10.9" />
+        <PackageReference Include="Grpc.AspNetCore" Version="2.52.0" />
+    </ItemGroup>
+    <ItemGroup>
+        <Protobuf Include="Protos\author.proto" GrpcServices="Client" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Core\MinimalApiCleanArchitecture.Application\MinimalApiCleanArchitecture.Application.csproj" />
+    </ItemGroup>
+    
+
 </Project>
