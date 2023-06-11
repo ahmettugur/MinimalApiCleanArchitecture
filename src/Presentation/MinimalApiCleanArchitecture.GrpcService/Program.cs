@@ -18,4 +18,5 @@ builder.Services.AddServices(builder);
 
 
 var app = builder.Build();
+app.ConfigureApplication();
 app.Run();

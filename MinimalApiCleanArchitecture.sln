@@ -30,6 +30,33 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalApiCleanArchitecture
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalApiCleanArchitecture.LogConsumer", "src\Consumers\MinimalApiCleanArchitecture.LogConsumer\MinimalApiCleanArchitecture.LogConsumer.csproj", "{7E1421ED-FC83-413F-B4D4-5EEFCCCB060C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker-compose", "docker-compose", "{9FE6958F-3CAA-4147-819B-1482D6669FA9}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose\docker-compose.override.yml = docker-compose\docker-compose.override.yml
+		docker-compose\docker-compose.yml = docker-compose\docker-compose.yml
+		docker-compose\.env = docker-compose\.env
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "elasticsearch", "elasticsearch", "{14A0924E-EBF7-49B8-A0EF-EEE2CF6F3F1D}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose\elasticsearch\Dockerfile = docker-compose\elasticsearch\Dockerfile
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{1EC41301-859B-468D-8E6B-AD6ACE478CED}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose\elasticsearch\config\elasticsearch.yml = docker-compose\elasticsearch\config\elasticsearch.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "kibana", "kibana", "{3BC64B1A-17F9-488A-AD81-8311FF458040}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose\kibana\Dockerfile = docker-compose\kibana\Dockerfile
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{DCA7D4E9-5D11-4CCF-8435-4AFB460771F2}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose\kibana\config\kibana.yml = docker-compose\kibana\config\kibana.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +77,11 @@ Global
 		{B5239E4B-E20C-4FF1-A371-EB466418CC52} = {FB011543-996C-4DE6-A4B3-55EA2309D0C2}
 		{0BDCE23E-6EC9-4C23-A575-15C3CE61918E} = {FB011543-996C-4DE6-A4B3-55EA2309D0C2}
 		{7E1421ED-FC83-413F-B4D4-5EEFCCCB060C} = {5ED97BA6-A280-44A3-ADCA-790EE4A36FA3}
+		{9FE6958F-3CAA-4147-819B-1482D6669FA9} = {06A7A8F7-2B7D-4E5F-9FD9-2B801576A2B5}
+		{14A0924E-EBF7-49B8-A0EF-EEE2CF6F3F1D} = {9FE6958F-3CAA-4147-819B-1482D6669FA9}
+		{1EC41301-859B-468D-8E6B-AD6ACE478CED} = {14A0924E-EBF7-49B8-A0EF-EEE2CF6F3F1D}
+		{3BC64B1A-17F9-488A-AD81-8311FF458040} = {9FE6958F-3CAA-4147-819B-1482D6669FA9}
+		{DCA7D4E9-5D11-4CCF-8435-4AFB460771F2} = {3BC64B1A-17F9-488A-AD81-8311FF458040}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B4453FCA-2797-4183-A007-1CC0B713FBAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

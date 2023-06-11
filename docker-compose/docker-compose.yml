@@ -1,0 +1,61 @@
+version: '3.7'
+
+services:
+  minimal-api-clean-architecture-db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+
+  portainer:
+    image: portainer/portainer-ce
+
+  minimal-api-clean-architecture-minimal-api:
+    image: ahmettugur/minimal-api
+    build:
+      context: ../
+      dockerfile: src/Presentation/MinimalApiCleanArchitecture.MinimalApi/Dockerfile
+
+  minimal-api-clean-architecture-grpc-service:
+    image: ahmettugur/grpc-service
+    build:
+      context: ../
+      dockerfile: src/Presentation/MinimalApiCleanArchitecture.GrpcService/Dockerfile
+
+  minimal-api-clean-architecture-log-consumer:
+    image: ahmettugur/log-consumer
+    build:
+      context: ../
+      dockerfile: src/Consumers/MinimalApiCleanArchitecture.LogConsumer/Dockerfile
+
+  elasticsearch:
+    image: ahmettugur/elasticsearch
+    build:
+      context: elasticsearch/
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+
+  kibana:
+    image: ahmettugur/kibana
+    build:
+      context: kibana/
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+
+  rabbitmq:
+    image: "rabbitmq:3.11.11-management"
+
+  jaeger:
+    image: jaegertracing/all-in-one
+  
+  zipkin-server:
+    image: openzipkin/zipkin
+
+  consul:
+    image: consul
+
+networks:
+  blogNetwork:
+    driver: bridge
+
+volumes:
+  portainer_data:
+  elasticsearch:
+  jaeger-data:

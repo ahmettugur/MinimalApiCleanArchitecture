@@ -1,5 +1,6 @@
 ﻿using Common.OpenTelemetry.Extensions;
 using MinimalApiCleanArchitecture.Application;
+using MinimalApiCleanArchitecture.Infrastructure;
 using MinimalApiCleanArchitecture.Persistence;
 
 namespace MinimalApiCleanArchitecture.MinimalApi.Extensions;
@@ -17,6 +18,7 @@ public static class ServiceCollectionExtensions
 
         builder.Services.AddApplicationServices();
         builder.Services.PersistenceServices(builder.Configuration);
+        builder.Services.InfrastructureServices(builder.Configuration);
         builder.Services.AddOpenTelemetryServices(builder.Configuration);
         builder.Services.ConfigureConsul(builder.Configuration);
 
