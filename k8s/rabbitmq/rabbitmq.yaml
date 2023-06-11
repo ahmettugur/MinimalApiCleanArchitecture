@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: rabbitmq
+  template:
+    metadata:
+      labels:
+        name: rabbitmq
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: rabbitmq-container
+          image: rabbitmq:3.11.13-management
+          env:
+            - name: RABBITMQ_ERLANG_COOKIE
+              value: SWQOKODSQALRPCLNMEQG
+            - name: RABBITMQ_DEFAULT_USER
+              value: rabbitmq
+            - name: RABBITMQ_DEFAULT_PASS
+              value: rabbitmq
+            - name: RABBITMQ_DEFAULT_VHOST
+              value: /
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-service
+spec:
+  type: NodePort
+  selector:
+    name: rabbitmq
+  ports:
+  - protocol: TCP
+    port: 15672
+    targetPort: 15672
+    nodePort: 32004
+    name: http
+  - protocol: TCP
+    port: 5672
+    targetPort: 5672
+    name: amqp

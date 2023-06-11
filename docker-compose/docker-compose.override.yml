@@ -29,6 +29,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ConnectionStrings:Default=Server=minimal-api-clean-architecture-db, 1433;Database=MinimalApiCleanArchitecture;User Id=sa;Password=Ahmet1990;TrustServerCertificate=true;"
+      - "AppSettings:ApplicationName=MinimalApiCleanArchitecture.MinimalApi"
+      - "AppSettings:Instance=2"
       - "GrpcSettings:AuthorGrpcServiceUrl="
       - "GrpcSettings:AuthorGrpcServiceConsulName=MinimalApiCleanArchitectureGrpcService"
       - "RabbitMqConfig:VHostname=/"
@@ -66,6 +68,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ConnectionStrings:Default=Server=minimal-api-clean-architecture-db, 1433;Database=MinimalApiCleanArchitecture;User Id=sa;Password=Ahmet1990;TrustServerCertificate=true;"
+      - "AppSettings:ApplicationName=MinimalApiCleanArchitecture.GrpcService"
+      - "AppSettings:Instance=2"
       - "RabbitMqConfig:VHostname=/"
       - "RabbitMqConfig:Hostname=rabbitmq"
       - "RabbitMqConfig:Username=rabbitmq"

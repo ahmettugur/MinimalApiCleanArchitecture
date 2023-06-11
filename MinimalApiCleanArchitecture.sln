@@ -57,6 +57,52 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{DCA7D4
 		docker-compose\kibana\config\kibana.yml = docker-compose\kibana\config\kibana.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "devops", "devops", "{AA30F281-2FF6-4418-8834-00F2746F6F24}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{9B5B57D0-6A30-4530-88FE-A3D994E45D30}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api", "api", "{77CCAA6D-989B-4093-8129-2176479B2578}"
+	ProjectSection(SolutionItems) = preProject
+		k8s\api\db-connection-config-map.yaml = k8s\api\db-connection-config-map.yaml
+		k8s\api\db-connection-secret.yaml = k8s\api\db-connection-secret.yaml
+		k8s\api\thoughtful-api-configmap.yaml = k8s\api\thoughtful-api-configmap.yaml
+		k8s\api\thoughtful-api-deployment.yaml = k8s\api\thoughtful-api-deployment.yaml
+		k8s\api\thoughtful-grpc-deployment.yaml = k8s\api\thoughtful-grpc-deployment.yaml
+		k8s\api\thoughtful-log-consumer-deployment.yaml = k8s\api\thoughtful-log-consumer-deployment.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "consul", "consul", "{236E708B-4B56-4D9C-BBFB-F7700503B552}"
+	ProjectSection(SolutionItems) = preProject
+		k8s\consul\consul-deployment.yaml = k8s\consul\consul-deployment.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "db", "db", "{0E8BCE44-123A-4D95-BD35-6B2F3348FC47}"
+	ProjectSection(SolutionItems) = preProject
+		k8s\db\mssql-deployment.yaml = k8s\db\mssql-deployment.yaml
+		k8s\db\mssql-pv.yaml = k8s\db\mssql-pv.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "elk", "elk", "{0D2D2E60-C4D3-45EB-A2C5-03EF090AAE35}"
+	ProjectSection(SolutionItems) = preProject
+		k8s\elk\elasticsearch-deployment.yaml = k8s\elk\elasticsearch-deployment.yaml
+		k8s\elk\kibana-deployment.yaml = k8s\elk\kibana-deployment.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "jaeger", "jaeger", "{AF0DB904-125A-4DC5-8C3D-974826FD75B4}"
+	ProjectSection(SolutionItems) = preProject
+		k8s\jaeger\jaeger-deployment.yaml = k8s\jaeger\jaeger-deployment.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rabbitmq", "rabbitmq", "{7934F24E-DD96-44E0-AC24-BBC8B1A143B4}"
+	ProjectSection(SolutionItems) = preProject
+		k8s\rabbitmq\rabbitmq.yaml = k8s\rabbitmq\rabbitmq.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "zipkin", "zipkin", "{C267093D-FB58-4ADA-A4F9-B2345ABC6FC4}"
+	ProjectSection(SolutionItems) = preProject
+		k8s\zipkin\zipkin-deployment.yaml = k8s\zipkin\zipkin-deployment.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,11 +123,19 @@ Global
 		{B5239E4B-E20C-4FF1-A371-EB466418CC52} = {FB011543-996C-4DE6-A4B3-55EA2309D0C2}
 		{0BDCE23E-6EC9-4C23-A575-15C3CE61918E} = {FB011543-996C-4DE6-A4B3-55EA2309D0C2}
 		{7E1421ED-FC83-413F-B4D4-5EEFCCCB060C} = {5ED97BA6-A280-44A3-ADCA-790EE4A36FA3}
-		{9FE6958F-3CAA-4147-819B-1482D6669FA9} = {06A7A8F7-2B7D-4E5F-9FD9-2B801576A2B5}
 		{14A0924E-EBF7-49B8-A0EF-EEE2CF6F3F1D} = {9FE6958F-3CAA-4147-819B-1482D6669FA9}
 		{1EC41301-859B-468D-8E6B-AD6ACE478CED} = {14A0924E-EBF7-49B8-A0EF-EEE2CF6F3F1D}
 		{3BC64B1A-17F9-488A-AD81-8311FF458040} = {9FE6958F-3CAA-4147-819B-1482D6669FA9}
 		{DCA7D4E9-5D11-4CCF-8435-4AFB460771F2} = {3BC64B1A-17F9-488A-AD81-8311FF458040}
+		{9FE6958F-3CAA-4147-819B-1482D6669FA9} = {AA30F281-2FF6-4418-8834-00F2746F6F24}
+		{9B5B57D0-6A30-4530-88FE-A3D994E45D30} = {AA30F281-2FF6-4418-8834-00F2746F6F24}
+		{77CCAA6D-989B-4093-8129-2176479B2578} = {9B5B57D0-6A30-4530-88FE-A3D994E45D30}
+		{236E708B-4B56-4D9C-BBFB-F7700503B552} = {9B5B57D0-6A30-4530-88FE-A3D994E45D30}
+		{0E8BCE44-123A-4D95-BD35-6B2F3348FC47} = {9B5B57D0-6A30-4530-88FE-A3D994E45D30}
+		{0D2D2E60-C4D3-45EB-A2C5-03EF090AAE35} = {9B5B57D0-6A30-4530-88FE-A3D994E45D30}
+		{AF0DB904-125A-4DC5-8C3D-974826FD75B4} = {9B5B57D0-6A30-4530-88FE-A3D994E45D30}
+		{7934F24E-DD96-44E0-AC24-BBC8B1A143B4} = {9B5B57D0-6A30-4530-88FE-A3D994E45D30}
+		{C267093D-FB58-4ADA-A4F9-B2345ABC6FC4} = {9B5B57D0-6A30-4530-88FE-A3D994E45D30}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B4453FCA-2797-4183-A007-1CC0B713FBAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: deployment-redis
+  name: deployment-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deployment-redis
+  template:
+    metadata:
+      labels:
+        app: deployment-redis
+    spec:
+      containers:
+      - image: redis
+        name: redis
+        command: ["redis-server"]
+        args: ["--replica-announce-ip svc-redis-instance-1"]
+        ports:
+          - containerPort: 6379
+        volumeMounts:
+        - name: "pvc-redis"
+          mountPath: "/data"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "500m"
+          limits:
+            memory: "512Mi"
+            cpu: "1000m"           
+      volumes:
+      - name: "pvc-redis"
+        persistentVolumeClaim:
+          claimName: "pvc-redis"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: deployment-redis
+  name: svc-redis
+spec:
+  ports:
+  - port: 6379
+    targetPort: 6379
+    protocol: TCP
+    nodePort: 32005
+  selector:
+    app: deployment-redis
+  type: NodePort

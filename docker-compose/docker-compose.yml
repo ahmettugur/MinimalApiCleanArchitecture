@@ -8,19 +8,19 @@ services:
     image: portainer/portainer-ce
 
   minimal-api-clean-architecture-minimal-api:
-    image: ahmettugur/minimal-api
+    image: ahmettugur/minimal-api-clean-architecture-minimal-api
     build:
       context: ../
       dockerfile: src/Presentation/MinimalApiCleanArchitecture.MinimalApi/Dockerfile
 
   minimal-api-clean-architecture-grpc-service:
-    image: ahmettugur/grpc-service
+    image: ahmettugur/minimal-api-clean-architecture-grpc-service
     build:
       context: ../
       dockerfile: src/Presentation/MinimalApiCleanArchitecture.GrpcService/Dockerfile
 
   minimal-api-clean-architecture-log-consumer:
-    image: ahmettugur/log-consumer
+    image: ahmettugur/minimal-api-clean-architecture-log-consumer
     build:
       context: ../
       dockerfile: src/Consumers/MinimalApiCleanArchitecture.LogConsumer/Dockerfile

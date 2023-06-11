@@ -1,0 +1,127 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minimal-api-clean-architecture-minimal-api-deployment
+  labels:
+    app: minimal-api-clean-architecture-minimal-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minimal-api-clean-architecture-minimal-api
+  template:
+    metadata:
+      labels:
+        app: minimal-api-clean-architecture-minimal-api
+    spec:
+      containers:
+        - name: minimal-api-clean-architecture-minimal-api
+          image: ahmettugur/minimal-api-clean-architecture-minimal-api
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          env:
+            - name: ConnectionStrings__Default
+              valueFrom:
+                secretKeyRef:
+                  name: mssql-secret
+                  key: db-connection-string-secret
+            - name: GrpcSettings__AuthorGrpcServiceUrl
+              valueFrom:
+                configMapKeyRef:
+                  name: minimal-api-clean-architecture-configmap
+                  key: minimal_api_clean_architecture_grpc_url
+            - name: GrpcSettings__AuthorGrpcServiceConsulName
+              valueFrom:
+                configMapKeyRef:
+                  name: minimal-api-clean-architecture-configmap
+                  key: minimal_api_clean_architecture_grpc_consul_name
+            - name: RabbitMqConfig__VHostname
+              valueFrom:
+                configMapKeyRef:
+                  name: minimal-api-clean-architecture-configmap
+                  key: rabbitmq_config_vhostname
+            - name: RabbitMqConfig__Hostname
+              valueFrom:
+                configMapKeyRef:
+                  name: minimal-api-clean-architecture-configmap
+                  key: rabbitmq_config_hostname
+            - name: RabbitMqConfig__Username
+              valueFrom:
+                configMapKeyRef:
+                  name: minimal-api-clean-architecture-configmap
+                  key: rabbitmq_config_username
+            - name: RabbitMqConfig__Password
+              valueFrom:
+                configMapKeyRef:
+                  name: minimal-api-clean-architecture-configmap
+                  key: rabbitmq_config_password
+            - name: RabbitMqConfig__Port
+              valueFrom:
+                configMapKeyRef:
+                  name: minimal-api-clean-architecture-configmap
+                  key: rabbitmq_config_port
+            - name: RabbitMqConfig__Exchange
+              valueFrom:
+                configMapKeyRef:
+                  name: minimal-api-clean-architecture-configmap
+                  key: rabbitmq_config_exchange
+            - name: RabbitMqConfig__ExchangeType
+              valueFrom:
+                configMapKeyRef:
+                  name: minimal-api-clean-architecture-configmap
+                  key: rabbitmq_config_exchange_type
+            - name: AppSettings__ApplicationName
+              value: MinimalApiCleanArchitecture.MinimalApi
+            - name: AppSettings__Instance
+              value: "1"
+            - name: JaegerSettings__Host
+              valueFrom:
+                configMapKeyRef:
+                  name: minimal-api-clean-architecture-configmap
+                  key: jaeger_host
+            - name: JaegerSettings__Port
+              valueFrom:
+                configMapKeyRef:
+                  name: minimal-api-clean-architecture-configmap
+                  key: jaeger_port
+            - name: JaegerSettings__SourceName
+              value: "Api"
+            - name: JaegerSettings__ServiceName
+              value: "MinimalApiCleanArchitecture.MinimalApi"
+            - name: ExporterSettings__UseExporter
+              value: "zipkin"
+            - name: Zipkin__Endpoint
+              value: "http://zipkin-server-service:9411/api/v2/spans"
+            - name: ConsulConfig__Address
+              valueFrom:
+                configMapKeyRef:
+                  name: minimal-api-clean-architecture-configmap
+                  key: consul_address
+            - name: ConsulConfig__ServiceAddress
+              value: "http://minimal-api-clean-architecture-minimal-api-service:8001"
+            - name: ConsulConfig__ServiceName
+              value: "MinimalApiCleanArchitectureMinimalApi"
+            - name: ConsulConfig__ServiceId
+              value: "MinimalApiCleanArchitectureMinimalApi"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minimal-api-clean-architecture-minimal-api-service
+spec:
+  selector:
+    app: minimal-api-clean-architecture-minimal-api
+  ports:
+    - protocol: TCP
+      port: 8001
+      targetPort: 80
+      nodePort: 31000
+  type: NodePort
