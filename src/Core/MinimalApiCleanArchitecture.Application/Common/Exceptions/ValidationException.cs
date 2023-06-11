@@ -44,7 +44,12 @@ public class ValidationException : Exception
     protected ValidationException(SerializationInfo info, StreamingContext context)
         : base(info, context)
     {
-
+        ValidationErrorResponse = new ValidationErrorResponse
+        {
+            StatusCode = 422,
+            StatusPhrase = "Bad request",
+            Timestamp = DateTime.Now
+        };
     }
     
     public override void GetObjectData(SerializationInfo info, StreamingContext context)
