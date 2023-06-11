@@ -103,6 +103,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "zipkin", "zipkin", "{C26709
 		k8s\zipkin\zipkin-deployment.yaml = k8s\zipkin\zipkin-deployment.yaml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E1769273-4B6F-4122-9A32-7C9D0798CC3B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{9BA78DE0-FA27-4D4F-A418-22CC83F4FAEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalApiCleanArchitecture.Application.UnitTests", "tests\Core\MinimalApiCleanArchitecture.Application.UnitTests\MinimalApiCleanArchitecture.Application.UnitTests.csproj", "{1B3883FF-4F0C-4892-AAB9-65A277FE130B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -136,6 +142,8 @@ Global
 		{AF0DB904-125A-4DC5-8C3D-974826FD75B4} = {9B5B57D0-6A30-4530-88FE-A3D994E45D30}
 		{7934F24E-DD96-44E0-AC24-BBC8B1A143B4} = {9B5B57D0-6A30-4530-88FE-A3D994E45D30}
 		{C267093D-FB58-4ADA-A4F9-B2345ABC6FC4} = {9B5B57D0-6A30-4530-88FE-A3D994E45D30}
+		{9BA78DE0-FA27-4D4F-A418-22CC83F4FAEF} = {E1769273-4B6F-4122-9A32-7C9D0798CC3B}
+		{1B3883FF-4F0C-4892-AAB9-65A277FE130B} = {9BA78DE0-FA27-4D4F-A418-22CC83F4FAEF}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B4453FCA-2797-4183-A007-1CC0B713FBAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -174,5 +182,9 @@ Global
 		{7E1421ED-FC83-413F-B4D4-5EEFCCCB060C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E1421ED-FC83-413F-B4D4-5EEFCCCB060C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E1421ED-FC83-413F-B4D4-5EEFCCCB060C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B3883FF-4F0C-4892-AAB9-65A277FE130B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B3883FF-4F0C-4892-AAB9-65A277FE130B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B3883FF-4F0C-4892-AAB9-65A277FE130B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B3883FF-4F0C-4892-AAB9-65A277FE130B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
