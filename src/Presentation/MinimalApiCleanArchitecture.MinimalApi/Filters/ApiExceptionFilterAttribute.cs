@@ -44,7 +44,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         
     }
 
-    private void HandleValidationException(ExceptionContext context)
+    private static void HandleValidationException(ExceptionContext context)
     {
         var details = new ValidationProblemDetails()
         {
@@ -56,7 +56,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         context.ExceptionHandled = true;
     }
 
-    private void HandleInvalidModelStateException(ExceptionContext context)
+    private static void HandleInvalidModelStateException(ExceptionContext context)
     {
         var details = new ValidationProblemDetails(context.ModelState)
         {
@@ -68,7 +68,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         context.ExceptionHandled = true;
     }
 
-    private void HandleNotFoundException(ExceptionContext context)
+    private static void HandleNotFoundException(ExceptionContext context)
     {
         var exception = (NotFoundException)context.Exception;
 
@@ -84,7 +84,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         context.ExceptionHandled = true;
     }
 
-    private void HandleUnauthorizedAccessException(ExceptionContext context)
+    private static void HandleUnauthorizedAccessException(ExceptionContext context)
     {
         var details = new ProblemDetails
         {
@@ -101,7 +101,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         context.ExceptionHandled = true;
     }
 
-    private void HandleForbiddenAccessException(ExceptionContext context)
+    private static void HandleForbiddenAccessException(ExceptionContext context)
     {
         var details = new ProblemDetails
         {

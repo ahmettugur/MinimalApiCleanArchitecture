@@ -58,7 +58,7 @@ public class ElasticContext : IElasticContext
         return new IndexResponseModel { IsValid = response.IsValid };
     }
 
-    private string GetIndexName(string indexName)
+    private static string GetIndexName(string indexName)
     {
         var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
         var index = $"{indexName.ToLowerInvariant()}_{DateTime.Now:yyyy.MM.dd}";
