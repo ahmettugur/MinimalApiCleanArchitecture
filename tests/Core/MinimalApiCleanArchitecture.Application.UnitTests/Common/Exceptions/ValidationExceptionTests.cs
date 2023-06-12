@@ -14,10 +14,10 @@ public class ValidationExceptionTests
     public void DefaultConstructor_EmptyError_CreatesAnEmptyException()
     {
         var actual = new ValidationException().ValidationErrorResponse;
-        actual.StatusCode.Should().Be(422);
-        actual.StatusPhrase.Should().Be("Bad request");
-        actual.Timestamp.ToShortDateString().Should().Be(DateTime.Now.ToShortDateString());
-        actual.Errors.Count.Should().Be(0);
+        actual?.StatusCode.Should().Be(422);
+        actual?.StatusPhrase.Should().Be("Bad request");
+        actual?.Timestamp.ToShortDateString().Should().Be(DateTime.Now.ToShortDateString());
+        actual?.Errors.Count.Should().Be(0);
     }
     
     [Fact]
@@ -25,11 +25,11 @@ public class ValidationExceptionTests
     {
         var actual = new ValidationException();
         actual.Message.Should().Be("One or more validation failures have occurred.");
-        actual.ValidationErrorResponse.Should().NotBeNull();
-        actual.ValidationErrorResponse.StatusCode.Should().Be(422);
-        actual.ValidationErrorResponse.StatusPhrase.Should().Be("Bad request");
-        actual.ValidationErrorResponse.Timestamp.ToShortDateString().Should().Be(DateTime.Now.ToShortDateString());
-        actual.ValidationErrorResponse.Errors.Count.Should().Be(0);
+        actual.ValidationErrorResponse?.Should().NotBeNull();
+        actual.ValidationErrorResponse?.StatusCode.Should().Be(422);
+        actual.ValidationErrorResponse?.StatusPhrase.Should().Be("Bad request");
+        actual.ValidationErrorResponse?.Timestamp.ToShortDateString().Should().Be(DateTime.Now.ToShortDateString());
+        actual.ValidationErrorResponse?.Errors.Count.Should().Be(0);
     }
     
     [Fact]
@@ -64,9 +64,9 @@ public class ValidationExceptionTests
         
         var actual = new ValidationException(failures).ValidationErrorResponse;
 
-        actual.Should().NotBeNull();
-        actual.Errors.FirstOrDefault()!.PropertyName.Should().BeEquivalentTo("name");
-        actual.Errors.FirstOrDefault()!.ErrorMessage.Should().BeEquivalentTo("name cannot be empty");
+        actual?.Should().NotBeNull();
+        actual?.Errors.FirstOrDefault()!.PropertyName.Should().BeEquivalentTo("name");
+        actual?.Errors.FirstOrDefault()!.ErrorMessage.Should().BeEquivalentTo("name cannot be empty");
     }
 
     [Fact]
@@ -78,9 +78,9 @@ public class ValidationExceptionTests
         };
         
         var actual = new ValidationException(failures).ValidationErrorResponse;
-        actual.StatusCode.Should().Be(422);
-        actual.Errors.Should().NotBeNull();
-        actual.Errors.Count.Should().BeGreaterThan(0);
+        actual?.StatusCode.Should().Be(422);
+        actual?.Errors.Should().NotBeNull();
+        actual?.Errors.Count.Should().BeGreaterThan(0);
 
     }
     
@@ -95,7 +95,7 @@ public class ValidationExceptionTests
         var actual = new ValidationException(failures).ValidationErrorResponse;
         var response = new ErrorResponse
         {
-            StatusCode = actual.StatusCode,
+            StatusCode = actual!.StatusCode,
             Errors = { actual.Errors[0].ErrorMessage! },
             StatusPhrase = actual.StatusPhrase,
             Timestamp = actual.Timestamp
