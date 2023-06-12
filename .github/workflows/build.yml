@@ -43,12 +43,9 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"ahmettugur_MinimalApiCleanArchitecture" /o:"ahmettugur" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths=coverage.xml
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"ahmettugur_MinimalApiCleanArchitecture" /o:"ahmettugur" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths="./tests/Core/MinimalApiCleanArchitecture.Application.UnitTests/tests.trx" /d:sonar.cs.opencover.reportsPaths="./tests/Core/MinimalApiCleanArchitecture.Application.UnitTests/bin/coverage.opencover.xml"
           dotnet restore ./MinimalApiCleanArchitecture.sln
           dotnet build  ./MinimalApiCleanArchitecture.sln --no-restore
-          C:\tools\opencover\OpenCover.Console.exe -target:"dotnet.exe" 
-            -targetargs:"test ./MinimalApiCleanArchitecture.sln --no-build"
-            -returntargetcode
-            -output:coverage.xml
-            -register:user
+          dotnet test ./MinimalApiCleanArchitecture.sln --no-build --verbosity normal -l:"trx;LogFileName=tests.trx" --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+          move ./tests/Core/MinimalApiCleanArchitecture.Application.UnitTests/bin/*/coverage.opencover.xml ./tests/Core/MinimalApiCleanArchitecture.Application.UnitTests/bin/
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"

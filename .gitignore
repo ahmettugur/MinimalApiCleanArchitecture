@@ -41,13 +41,13 @@ bld/
 Generated\ Files/
 
 # MSTest test Results
-[Tt]est[Rr]esult*/
-[Bb]uild[Ll]og.*
+# [Tt]est[Rr]esult*/
+# [Bb]uild[Ll]og.*
 
 # NUnit
-*.VisualState.xml
-TestResult.xml
-nunit-*.xml
+# *.VisualState.xml
+# TestResult.xml
+# nunit-*.xml
 
 # Build Results of an ATL Project
 [Dd]ebugPS/
@@ -136,16 +136,16 @@ _ReSharper*/
 _TeamCity*
 
 # DotCover is a Code Coverage Tool
-*.dotCover
+# *.dotCover
 
 # AxoCover is a Code Coverage Tool
 .axoCover/*
 !.axoCover/settings.json
 
 # Coverlet is a free, cross platform Code Coverage Tool
-coverage*.json
-coverage*.xml
-coverage*.info
+# coverage*.json
+# coverage*.xml
+# coverage*.info
 
 # Visual Studio code coverage results
 *.coverage
