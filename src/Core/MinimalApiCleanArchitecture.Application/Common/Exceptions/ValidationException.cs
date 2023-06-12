@@ -7,7 +7,7 @@ namespace MinimalApiCleanArchitecture.Application.Common.Exceptions;
 [Serializable]
 public class ValidationException : Exception
 {
-    public ValidationErrorResponse ValidationErrorResponse { get; }
+    public ValidationErrorResponse? ValidationErrorResponse { get; set; }
     public ValidationException()
         : base("One or more validation failures have occurred.")
     {
@@ -44,7 +44,7 @@ public class ValidationException : Exception
     protected ValidationException(SerializationInfo info, StreamingContext context)
         : base(info, context)
     {
-        ValidationErrorResponse = (ValidationErrorResponse)info.GetValue(nameof(ValidationErrorResponse), typeof(ValidationErrorResponse));
+        ValidationErrorResponse = (ValidationErrorResponse)info.GetValue(nameof(ValidationErrorResponse), typeof(ValidationErrorResponse))!;
         
     }
     
