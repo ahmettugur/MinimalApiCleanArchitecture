@@ -42,7 +42,7 @@ public class ApiExceptionFilter:IEndpointFilter
 
     }
     
-    private IResult HandleUnhandledException(Exception ex)
+    private static IResult HandleUnhandledException(Exception ex)
     {
         var response =  new ErrorResponse
         {
@@ -54,7 +54,7 @@ public class ApiExceptionFilter:IEndpointFilter
         
         return TypedResults.Json(response,statusCode:StatusCodes.Status500InternalServerError);
     }
-    private IResult HandleValidationException(Exception ex)
+    private static IResult HandleValidationException(Exception ex)
     {
         var exception = (ValidationException)ex;
         var response = exception.ValidationErrorResponse;
@@ -62,7 +62,7 @@ public class ApiExceptionFilter:IEndpointFilter
         return TypedResults.UnprocessableEntity(response);
     }
     
-    private IResult HandleNotFoundException(Exception ex)
+    private static IResult HandleNotFoundException(Exception ex)
     {
         var exception = (NotFoundException)ex;
         var response =  new ErrorResponse
@@ -76,7 +76,7 @@ public class ApiExceptionFilter:IEndpointFilter
         return TypedResults.NotFound(response);
     }
 
-    private IResult HandleRpcException(Exception ex)
+    private static IResult HandleRpcException(Exception ex)
     {
         var rpcException = (RpcException)ex;
 

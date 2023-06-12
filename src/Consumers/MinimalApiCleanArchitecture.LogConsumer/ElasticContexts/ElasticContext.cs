@@ -54,7 +54,7 @@ public class ElasticContext : IElasticContext
             if (!createIndexResponseModel.IsValid)
                 return createIndexResponseModel;
         }
-        var response = await _elasticClient.LowLevel.IndexAsync<IndexResponseModel>(indexName, PostData.String(JsonConvert.SerializeObject(document, Formatting.Indented, _jsonSettings)));
+        var response = await _elasticClient.LowLevel.IndexAsync<IndexResponseModel>(indexName, PostData.String(JsonConvert.SerializeObject(document, Formatting.Indented, _jsonSettings)), ctx: ct);
         return new IndexResponseModel { IsValid = response.IsValid };
     }
 

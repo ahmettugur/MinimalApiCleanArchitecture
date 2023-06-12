@@ -29,12 +29,12 @@ public class GuidValidationFilter : IEndpointFilter
         return await next(context);
     }
 
-    private bool IsValidGuid(string? id)
+    private static bool IsValidGuid(string? id)
     {
         return Guid.TryParse(id, out var value);
     }
 
-    private ValidationErrorResponse GenerateErrorResponse(ValidationErrorResponse.ValidationError validationError)
+    private static ValidationErrorResponse GenerateErrorResponse(ValidationErrorResponse.ValidationError validationError)
     {
         var apiError = new ValidationErrorResponse()
         {
