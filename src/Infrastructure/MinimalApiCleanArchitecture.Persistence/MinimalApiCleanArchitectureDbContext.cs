@@ -26,7 +26,6 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<MinimalApi
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                //.AddJsonFile(@Directory.GetCurrentDirectory() + "/../Thoughtful.Api/appsettings.json")
                 .AddJsonFile("appsettings.json")
                 .Build();
             connectionString = configuration.GetConnectionString("Default");
