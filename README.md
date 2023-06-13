@@ -3,6 +3,8 @@ MinimalApiCleanArchitecture .NET 7 Minimal Api and Grpc Service With Onion Archi
 Distributed tracing (Jaeger and Zipkin) <br>
 Docker Container and k8s deployment
 
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/summary/new_code?id=ahmettugur_MinimalApiCleanArchitecture)
+
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ahmettugur_MinimalApiCleanArchitecture&metric=coverage)](https://sonarcloud.io/summary/new_code?id=ahmettugur_MinimalApiCleanArchitecture)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=ahmettugur_MinimalApiCleanArchitecture&metric=bugs)](https://sonarcloud.io/summary/new_code?id=ahmettugur_MinimalApiCleanArchitecture)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ahmettugur_MinimalApiCleanArchitecture&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=ahmettugur_MinimalApiCleanArchitecture)
