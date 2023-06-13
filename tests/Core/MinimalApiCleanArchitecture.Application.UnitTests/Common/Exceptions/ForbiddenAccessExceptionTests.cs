@@ -16,15 +16,9 @@ public class ForbiddenAccessExceptionTests
     }
     
     [Fact]
-    public void TestForbiddenAccessException_ForbiddenAccessExceptionWhenSerialized_ThenDeserializeCorrectly()
+    public void TestForbiddenAccessException_ForbiddenAccessExceptionShould_GetObjectDataCorrectly()
     {
         var exception = new ForbiddenAccessException("Forbidden access");
-        var result = JsonSerializer.Serialize(exception);
-        result.Should().NotBeEmpty();
-        exception = JsonSerializer.Deserialize<ForbiddenAccessException>(result)!;
-        exception.Message.Should().NotBeEmpty();
-        
-        exception = new ForbiddenAccessException("Not found");
         var info = new SerializationInfo(typeof(NotFoundException),new FormatterConverter());
         var context = new StreamingContext();
         exception.GetObjectData(info, context);

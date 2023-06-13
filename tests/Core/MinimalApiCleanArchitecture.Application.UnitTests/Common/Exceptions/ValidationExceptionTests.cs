@@ -33,7 +33,7 @@ public class ValidationExceptionTests
     }
     
     [Fact]
-    public void TestValidationException_ValidationExceptionWhenSerialized_ThenDeserializeCorrectly()
+    public void TestValidationException_ValidationExceptionShould_GetObjectDataCorrectly()
     {
         var failures = new List<ValidationFailure>
         {
@@ -41,11 +41,6 @@ public class ValidationExceptionTests
         };
         
         var exception = new NotFoundException("NotFoundException");
-        var result = JsonSerializer.Serialize(exception);
-        result.Should().NotBeEmpty();
-        exception = JsonSerializer.Deserialize<NotFoundException>(result)!;
-        exception.Message.Should().NotBeEmpty();
-        
         var info = new SerializationInfo(typeof(NotFoundException),new FormatterConverter());
         var context = new StreamingContext();
         var actual = new ValidationException(failures);

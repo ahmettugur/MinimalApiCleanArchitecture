@@ -31,7 +31,7 @@ public class NotFoundExceptionTests
     }
     
     [Fact]
-    public void TestNotFoundException_NotFoundExceptionWhenSerialized_ThenDeserializeCorrectly()
+    public void TestNotFoundException_NotFoundExceptionShould_GetObjectDataCorrectly()
     {
         var actual = new NotFoundException("Not found");
         var info = new SerializationInfo(typeof(NotFoundException),new FormatterConverter());

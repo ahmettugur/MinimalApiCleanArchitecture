@@ -40,14 +40,7 @@ public class ValidationException : Exception
         }));
         return apiError;
     }
-    
-    protected ValidationException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-        ValidationErrorResponse = (ValidationErrorResponse)info.GetValue(nameof(ValidationErrorResponse), typeof(ValidationErrorResponse))!;
-        
-    }
-    
+
     public override void GetObjectData(SerializationInfo info, StreamingContext context)
     {
         HelpLink = HelpLink?.ToLower();
