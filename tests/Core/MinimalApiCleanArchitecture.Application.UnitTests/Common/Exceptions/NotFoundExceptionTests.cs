@@ -2,7 +2,6 @@ using System.Runtime.Serialization;
 using System.Text.Json;
 using FluentAssertions;
 using MinimalApiCleanArchitecture.Application.Common.Exceptions;
-using Newtonsoft.Json;
 using Xunit;
 
 namespace MinimalApiCleanArchitecture.Application.UnitTests.Common.Exceptions;
@@ -38,5 +37,17 @@ public class NotFoundExceptionTests
         var context = new StreamingContext();
         actual.GetObjectData(info, context);
         actual.Should().NotBeNull();
+    }
+    
+    [Fact]
+    public void TestNotFoundException_NotFoundExceptionWhenSerialized_ThenDeserializeCorrectly()
+    {
+        var exception = new NotFoundException("Not found");
+        var result = JsonSerializer.Serialize(exception);
+        result.Should().NotBeEmpty();
+        exception = JsonSerializer.Deserialize<NotFoundException>(result)!;
+        exception.Message.Should().NotBeEmpty();
+
+        exception.Should().NotBeNull();
     }
 }

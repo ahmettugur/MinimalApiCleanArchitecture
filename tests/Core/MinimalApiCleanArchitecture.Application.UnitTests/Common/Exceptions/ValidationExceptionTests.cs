@@ -39,14 +39,28 @@ public class ValidationExceptionTests
         {
             new ValidationFailure("name", "name cannot be empty"),
         };
-        
-        var exception = new NotFoundException("NotFoundException");
         var info = new SerializationInfo(typeof(NotFoundException),new FormatterConverter());
         var context = new StreamingContext();
         var actual = new ValidationException(failures);
         actual.GetObjectData(info, context);
 
         actual.Should().NotBeNull();
+    }
+    
+    [Fact]
+    public void TestValidationException_ValidationExceptionWhenSerialized_ThenDeserializeCorrectly()
+    {
+        var failures = new List<ValidationFailure>
+        {
+            new ValidationFailure("name", "name cannot be empty"),
+        };
+        var exception = new ValidationException(failures);
+        var result = JsonSerializer.Serialize(exception);
+        result.Should().NotBeEmpty();
+        exception = JsonSerializer.Deserialize<ValidationException>(result)!;
+        exception.Message.Should().NotBeEmpty();
+
+        exception.Should().NotBeNull();
     }
     
     [Fact]
