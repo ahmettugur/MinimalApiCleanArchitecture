@@ -37,22 +37,17 @@ jobs:
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+      - name: Install dotnet reportgenerator
+        run: dotnet tool install --global dotnet-reportgenerator-globaltool
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          CollectCoverage: true
-          CoverletOutputFormat: lcov
-          ThresholdStat: total
-          ThresholdType: Line
-          CoverletOutput: TestResults/
-          SkipAutoProps: true
-          Threshold: 80
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"ahmettugur_MinimalApiCleanArchitecture" /o:"ahmettugur" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths="./tests/Core/MinimalApiCleanArchitecture.Application.UnitTests/tests.trx" /d:sonar.cs.opencover.reportsPaths="./tests/Core/MinimalApiCleanArchitecture.Application.UnitTests/bin/coverage.opencover.xml"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"ahmettugur_MinimalApiCleanArchitecture" /o:"ahmettugur" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.coverageReportPaths=CoverageReport/SonarQube.xml
           dotnet restore ./MinimalApiCleanArchitecture.sln
           dotnet build  ./MinimalApiCleanArchitecture.sln --no-restore
-          dotnet test ./MinimalApiCleanArchitecture.sln --no-build --verbosity normal -l:"trx;LogFileName=tests.trx" --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+          dotnet test ./MinimalApiCleanArchitecture.sln --no-build --verbosity normal --collect:"XPlat Code Coverage" 
+          reportgenerator -reports:./**/coverage.cobertura.xml -targetdir:./CoverageReport -reporttypes:SonarQube
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-        
