@@ -60,7 +60,7 @@ public class AuthorGrpcServiceTests
     }
 
     [Fact]
-    public async Task TestAddInfrastructureServices_AddInfrastructureServicesShould_GetServices()
+    public void TestAddInfrastructureServices_AddInfrastructureServicesShould_GetServices()
     {
         _serviceProvider.GetService<IMapper>().Should().NotBeNull();
         _serviceProvider.GetService<IConsulClient>().Should().BeNull();
