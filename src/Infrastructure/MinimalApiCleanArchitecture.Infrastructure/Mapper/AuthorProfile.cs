@@ -43,7 +43,9 @@ public class AuthorProfile: Profile
 
         CreateMap<UpdateAuthorRequest, UpdateAuthorProtoRequest>()
             .ForMember(dest => dest.DateOfBirth, opt =>
-                opt.MapFrom(src => Timestamp.FromDateTime(src.DateOfBirth)));
+                opt.MapFrom(src => Timestamp.FromDateTime(src.DateOfBirth.ToUniversalTime())))
+            .ForMember(dest => dest.Id, opt =>
+                opt.MapFrom(src => src.AuthorId.ToString())).ReverseMap();
 
         CreateMap<DeleteAuthorRequest, DeleteAuthorProtoRequest>();
 

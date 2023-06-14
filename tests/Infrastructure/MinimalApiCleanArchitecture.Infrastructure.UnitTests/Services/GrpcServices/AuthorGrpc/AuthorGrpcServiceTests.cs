@@ -5,6 +5,9 @@ using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Commands.CreateAuthor;
+using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Commands.DeleteAuthor;
+using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Commands.UpdateAuthor;
+using MinimalApiCleanArchitecture.Domain.Model;
 using MinimalApiCleanArchitecture.GrpcService.Protos;
 using MinimalApiCleanArchitecture.Infrastructure.Services.GrpcServices.AuthorGrpc;
 using Moq;
@@ -15,12 +18,14 @@ public class AuthorGrpcServiceTests
 {
     private readonly Mock<AuthorProtoService.AuthorProtoServiceClient> _authorProtoServiceMock;
     private readonly IMapper _mapper;
-    private AuthorGrpcService? _authorGrpcService;
+    private AuthorGrpcService _authorGrpcService;
     private readonly AuthorProtoModel _authorProtoModel;
     private readonly GetAllAuthorsProtoResponse _authorsProtoResponse;
     private readonly GetAuthorByIdProtoResponse _authorByIdProtoResponse;
     private readonly CreateAuthorProtoResponse _createAuthorProtoResponse;
     private readonly CreateAuthorResponse _createAuthorResponse;
+    private readonly UpdateAuthorProtoResponse _updateAuthorProtoResponse;
+    private readonly DeleteAuthorProtoResponse _deleteAuthorProtoResponse;
 
     public AuthorGrpcServiceTests()
     {
@@ -34,6 +39,8 @@ public class AuthorGrpcServiceTests
         services.InfrastructureServices(configuration);
         IServiceProvider serviceProvider = services.BuildServiceProvider();
         _mapper = serviceProvider.GetService<IMapper>()!;
+
+        _authorGrpcService = new AuthorGrpcService(_authorProtoServiceMock.Object, _mapper);
 
         _authorProtoModel = new AuthorProtoModel()
         {
@@ -53,6 +60,8 @@ public class AuthorGrpcServiceTests
             Bio = _authorProtoModel.Bio,
             DateOfBirth = _authorProtoModel.DateOfBirth.ToDateTime()
         };
+        _updateAuthorProtoResponse = new UpdateAuthorProtoResponse() { Status = true };
+        _deleteAuthorProtoResponse = new DeleteAuthorProtoResponse() { Status = true };
     }
 
     [Fact]
@@ -62,7 +71,7 @@ public class AuthorGrpcServiceTests
         _authorProtoServiceMock
             .Setup(x => x.GetAuthorsAsync(new Empty(), null, null, default))
             .Returns(mockCall);
-        _authorGrpcService = new AuthorGrpcService(_authorProtoServiceMock.Object, _mapper);
+        
 
         var result = await _authorGrpcService.GetAuthorsAsync();
 
@@ -85,24 +94,53 @@ public class AuthorGrpcServiceTests
     }
 
     [Fact]
-     public async Task TestCreateAuthor_CreateAuthorShouldReturn_GetAuthor()
+     public async Task TestCreateAuthor_CreateAuthorShouldReturn_InsertedAuthor()
      {
          var request = new CreateAuthorRequest("Jon","Doe","Developer",new DateTime(1990, 9, 1));
          
-         var protoRequest = new CreateAuthorProtoRequest()
-         {
-             LastName = request.LastName, FirstName = request.FirstName, Bio = request.Bio,
-             DateOfBirth = Timestamp.FromDateTime(request.DateOfBirth.ToUniversalTime())
-         };
-    
-         var mockCall = CallHelpers.CreateAsyncUnaryCall(_createAuthorProtoResponse);
+         var protoRequest = _mapper.Map<CreateAuthorProtoRequest>(request);
+
+        var mockCall = CallHelpers.CreateAsyncUnaryCall(_createAuthorProtoResponse);
          _authorProtoServiceMock
              .Setup(x => x.CreateAuthorAsync(protoRequest, null, null, default))
              .Returns(mockCall);
-         _authorGrpcService = new AuthorGrpcService(_authorProtoServiceMock.Object, _mapper);
     
          var result = await _authorGrpcService.CreateAuthorAsync(request);
     
          result.Should().NotBeNull();
      }
+
+    [Fact]
+    public async Task TestUpdateAuthor_UpdateAuthorShouldReturn_UpdateStstusTrue()
+    {
+        var request = new UpdateAuthorRequest(Guid.NewGuid(), "Jon", "Doe", "Developer", new DateTime(1990, 9, 1));
+        var protoRequest = _mapper.Map<UpdateAuthorProtoRequest>(request);
+
+        var mockCall = CallHelpers.CreateAsyncUnaryCall(_updateAuthorProtoResponse);
+        _authorProtoServiceMock
+            .Setup(_ => _.UpdateAuthorAsync(protoRequest, null, null, default))
+            .Returns(mockCall);
+
+        var result = await _authorGrpcService.UpdateAuthorAsync(request, request.AuthorId.ToString());
+
+        result.Should().NotBeNull();
+        result.Status.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task TestDeleteAuthor_DeleteAuthorShouldReturn_DeleteStstusTrue()
+    {
+        var request = new DeleteAuthorRequest(Guid.NewGuid());
+        var protoRequest = _mapper.Map<DeleteAuthorProtoRequest>(request);
+
+        var mockCall = CallHelpers.CreateAsyncUnaryCall(_deleteAuthorProtoResponse);
+        _authorProtoServiceMock
+            .Setup(_ => _.DeleteAuthorAsync(protoRequest, null, null, default))
+            .Returns(mockCall);
+
+        var result = await _authorGrpcService.DeleteAuthorAsync(request);
+
+        result.Should().NotBeNull();
+        result.Status.Should().BeTrue();
+    }
 }
