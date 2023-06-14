@@ -84,25 +84,25 @@ public class AuthorGrpcServiceTests
         result.Should().NotBeNull();
     }
 
-    //[Fact]
-    // public async Task TestCreateAuthor_CreateAuthorShouldReturn_GetAuthor()
-    // {
-    //     var request = new CreateAuthorRequest("Jon","Doe","Developer",new DateTime(1990, 9, 1));
-    //     
-    //     var protoRequest = new CreateAuthorProtoRequest()
-    //     {
-    //         LastName = request.LastName, FirstName = request.FirstName, Bio = request.Bio,
-    //         DateOfBirth = Timestamp.FromDateTime(request.DateOfBirth.ToUniversalTime())
-    //     };
-    //
-    //     var mockCall = CallHelpers.CreateAsyncUnaryCall(_createAuthorProtoResponse);
-    //     _authorProtoServiceMock
-    //         .Setup(x => x.CreateAuthorAsync(protoRequest, null, null, default))
-    //         .Returns(mockCall);
-    //     _authorGrpcService = new AuthorGrpcService(_authorProtoServiceMock.Object, _mapper);
-    //
-    //     var result = await _authorGrpcService.CreateAuthorAsync(request);
-    //
-    //     result.Should().NotBeNull();
-    // }
+    [Fact]
+     public async Task TestCreateAuthor_CreateAuthorShouldReturn_GetAuthor()
+     {
+         var request = new CreateAuthorRequest("Jon","Doe","Developer",new DateTime(1990, 9, 1));
+         
+         var protoRequest = new CreateAuthorProtoRequest()
+         {
+             LastName = request.LastName, FirstName = request.FirstName, Bio = request.Bio,
+             DateOfBirth = Timestamp.FromDateTime(request.DateOfBirth.ToUniversalTime())
+         };
+    
+         var mockCall = CallHelpers.CreateAsyncUnaryCall(_createAuthorProtoResponse);
+         _authorProtoServiceMock
+             .Setup(x => x.CreateAuthorAsync(protoRequest, null, null, default))
+             .Returns(mockCall);
+         _authorGrpcService = new AuthorGrpcService(_authorProtoServiceMock.Object, _mapper);
+    
+         var result = await _authorGrpcService.CreateAuthorAsync(request);
+    
+         result.Should().NotBeNull();
+     }
 }
