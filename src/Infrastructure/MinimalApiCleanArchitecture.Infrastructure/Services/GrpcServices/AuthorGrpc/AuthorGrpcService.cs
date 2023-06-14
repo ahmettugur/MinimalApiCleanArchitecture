@@ -5,7 +5,7 @@ using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Commands.Up
 using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Queries.GetAllAuthors;
 using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Queries.GetAuthorById;
 using MinimalApiCleanArchitecture.Application.Interfaces.GrpcServices.AuthorGrpc;
-using MinimalApiCleanArchitecture.GrpcService.Protos;
+using MinimalApiCleanArchitecture.Infrastructure.Protos;
 
 namespace MinimalApiCleanArchitecture.Infrastructure.Services.GrpcServices.AuthorGrpc
 {

@@ -5,7 +5,7 @@ using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Commands.De
 using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Commands.UpdateAuthor;
 using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Queries.GetAllAuthors;
 using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Queries.GetAuthorById;
-using MinimalApiCleanArchitecture.GrpcService.Protos;
+using MinimalApiCleanArchitecture.Infrastructure.Protos;
 
 namespace MinimalApiCleanArchitecture.Infrastructure.Mapper;
 

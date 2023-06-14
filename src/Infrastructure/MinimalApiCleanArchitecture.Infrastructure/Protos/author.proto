@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "MinimalApiCleanArchitecture.GrpcService.Protos";
+option csharp_namespace = "MinimalApiCleanArchitecture.Infrastructure.Protos";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 

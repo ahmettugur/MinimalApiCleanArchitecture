@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Commands.CreateAuthor;
 using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Commands.DeleteAuthor;
 using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Commands.UpdateAuthor;
-using MinimalApiCleanArchitecture.GrpcService.Protos;
+using MinimalApiCleanArchitecture.Infrastructure.Protos;
 using MinimalApiCleanArchitecture.Infrastructure.Services.GrpcServices.AuthorGrpc;
 using Moq;
 using Status = Grpc.Core.Status;
@@ -96,6 +96,8 @@ public class AuthorGrpcServiceTests
         var result = await _authorGrpcService.GetAuthorsAsync();
 
         result.Count.Should().BeGreaterThan(0);
+
+        _authorsProtoResponse.Authors.Count.Should().BeGreaterThan(0);
     }
 
     [Fact]

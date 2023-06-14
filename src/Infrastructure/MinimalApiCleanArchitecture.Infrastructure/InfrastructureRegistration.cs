@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MinimalApiCleanArchitecture.Application.Interfaces.GrpcServices.AuthorGrpc;
 using MinimalApiCleanArchitecture.Infrastructure.Services.GrpcServices.AuthorGrpc;
-using MinimalApiCleanArchitecture.GrpcService.Protos;
+using MinimalApiCleanArchitecture.Infrastructure.Protos;
 
 namespace MinimalApiCleanArchitecture.Infrastructure;
 
