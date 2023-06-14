@@ -8,11 +8,10 @@ using Microsoft.Extensions.DependencyInjection;
 using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Commands.CreateAuthor;
 using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Commands.DeleteAuthor;
 using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Commands.UpdateAuthor;
-using MinimalApiCleanArchitecture.Application.Interfaces.GrpcServices.AuthorGrpc;
-using MinimalApiCleanArchitecture.Domain.Model;
 using MinimalApiCleanArchitecture.GrpcService.Protos;
 using MinimalApiCleanArchitecture.Infrastructure.Services.GrpcServices.AuthorGrpc;
 using Moq;
+using Status = Grpc.Core.Status;
 
 namespace MinimalApiCleanArchitecture.Infrastructure.UnitTests.Services.GrpcServices.AuthorGrpc;
 
@@ -29,6 +28,7 @@ public class AuthorGrpcServiceTests
     private readonly DeleteAuthorProtoResponse _deleteAuthorProtoResponse;
     private readonly IServiceProvider _serviceProvider;
     private readonly IConfigurationRoot _configuration;
+
     public AuthorGrpcServiceTests()
     {
         _configuration = new ConfigurationBuilder()
@@ -55,8 +55,8 @@ public class AuthorGrpcServiceTests
         _authorByIdProtoResponse = new GetAuthorByIdProtoResponse() {Author = _authorProtoModel};
 
         _createAuthorProtoResponse = new CreateAuthorProtoResponse() {Author = _authorProtoModel};
-        _updateAuthorProtoResponse = new UpdateAuthorProtoResponse() { Status = true };
-        _deleteAuthorProtoResponse = new DeleteAuthorProtoResponse() { Status = true };
+        _updateAuthorProtoResponse = new UpdateAuthorProtoResponse() {Status = true};
+        _deleteAuthorProtoResponse = new DeleteAuthorProtoResponse() {Status = true};
     }
 
     [Fact]
@@ -65,15 +65,22 @@ public class AuthorGrpcServiceTests
         _serviceProvider.GetService<IMapper>().Should().NotBeNull();
         _serviceProvider.GetService<IConsulClient>().Should().BeNull();
         _serviceProvider.GetService<AuthorProtoService.AuthorProtoServiceClient>().Should().NotBeNull();
-        _serviceProvider.GetService<IAuthorGrpcService>().Should().NotBeNull();
-        
-        var serviceName = _configuration["GrpcSettings:AuthorGrpcServiceConsulName"]!;
-        var consulClient = _serviceProvider.GetService<IConsulClient>();
+        _serviceProvider.GetService<AuthorGrpcService>().Should().BeNull();
+
+        var serviceName = _configuration["GrpcSettings:AuthorGrpcServiceConsulName"];
+        serviceName.Should().NotBeNull();
+
+        var consulClient = _serviceProvider.GetService<IConsulClient>(); 
+        consulClient.Should().BeNull();
+
         var allRegisteredServices = consulClient?.Agent.Services().GetAwaiter().GetResult();
-        var registeredServices = allRegisteredServices?.Response?.Where(s => s.Key.Equals(serviceName, StringComparison.OrdinalIgnoreCase)).Select(x => x.Value).ToList();
+        allRegisteredServices.Should().BeNull();
+
+        var registeredServices = allRegisteredServices?.Response
+            .Where(s => s.Key.Equals(serviceName, StringComparison.OrdinalIgnoreCase)).Select(x => x.Value).ToList();
         registeredServices.Should().BeNull();
     }
-    
+
     [Fact]
     public async Task TestGetAllAuthors_GetAllAuthorsShouldReturn_GetAllAuthors()
     {
@@ -81,7 +88,10 @@ public class AuthorGrpcServiceTests
         _authorProtoServiceMock
             .Setup(x => x.GetAuthorsAsync(new Empty(), null, null, default))
             .Returns(mockCall);
-        
+
+        mockCall.GetStatus().Should().Be(Status.DefaultSuccess);
+        mockCall.GetTrailers().Should().NotBeNull();
+        mockCall.Dispose();
 
         var result = await _authorGrpcService.GetAuthorsAsync();
 
@@ -104,21 +114,21 @@ public class AuthorGrpcServiceTests
     }
 
     [Fact]
-     public async Task TestCreateAuthor_CreateAuthorShouldReturn_InsertedAuthor()
-     {
-         var request = new CreateAuthorRequest("Jon","Doe","Developer",new DateTime(1990, 9, 1));
-         
-         var protoRequest = _mapper.Map<CreateAuthorProtoRequest>(request);
+    public async Task TestCreateAuthor_CreateAuthorShouldReturn_InsertedAuthor()
+    {
+        var request = new CreateAuthorRequest("Jon", "Doe", "Developer", new DateTime(1990, 9, 1));
+
+        var protoRequest = _mapper.Map<CreateAuthorProtoRequest>(request);
 
         var mockCall = CallHelpers.CreateAsyncUnaryCall(_createAuthorProtoResponse);
-         _authorProtoServiceMock
-             .Setup(x => x.CreateAuthorAsync(protoRequest, null, null, default))
-             .Returns(mockCall);
-    
-         var result = await _authorGrpcService.CreateAuthorAsync(request);
-    
-         result.Should().NotBeNull();
-     }
+        _authorProtoServiceMock
+            .Setup(x => x.CreateAuthorAsync(protoRequest, null, null, default))
+            .Returns(mockCall);
+
+        var result = await _authorGrpcService.CreateAuthorAsync(request);
+
+        result.Should().NotBeNull();
+    }
 
     [Fact]
     public async Task TestUpdateAuthor_UpdateAuthorShouldReturn_UpdateStstusTrue()
