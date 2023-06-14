@@ -1,4 +1,5 @@
 using AutoMapper;
+using Consul;
 using FluentAssertions;
 using Google.Protobuf.Collections;
 using Google.Protobuf.WellKnownTypes;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Commands.CreateAuthor;
 using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Commands.DeleteAuthor;
 using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Commands.UpdateAuthor;
+using MinimalApiCleanArchitecture.Application.Interfaces.GrpcServices.AuthorGrpc;
 using MinimalApiCleanArchitecture.Domain.Model;
 using MinimalApiCleanArchitecture.GrpcService.Protos;
 using MinimalApiCleanArchitecture.Infrastructure.Services.GrpcServices.AuthorGrpc;
@@ -23,22 +25,22 @@ public class AuthorGrpcServiceTests
     private readonly GetAllAuthorsProtoResponse _authorsProtoResponse;
     private readonly GetAuthorByIdProtoResponse _authorByIdProtoResponse;
     private readonly CreateAuthorProtoResponse _createAuthorProtoResponse;
-    private readonly CreateAuthorResponse _createAuthorResponse;
     private readonly UpdateAuthorProtoResponse _updateAuthorProtoResponse;
     private readonly DeleteAuthorProtoResponse _deleteAuthorProtoResponse;
-
+    private readonly IServiceProvider _serviceProvider;
+    private readonly IConfigurationRoot _configuration;
     public AuthorGrpcServiceTests()
     {
-        var configuration = new ConfigurationBuilder()
+        _configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json")
             .Build();
 
         _authorProtoServiceMock = new Mock<AuthorProtoService.AuthorProtoServiceClient>();
         IServiceCollection services = new ServiceCollection();
-        services.InfrastructureServices(configuration);
-        IServiceProvider serviceProvider = services.BuildServiceProvider();
-        _mapper = serviceProvider.GetService<IMapper>()!;
+        services.AddInfrastructureServices(_configuration);
+        _serviceProvider = services.BuildServiceProvider();
+        _mapper = _serviceProvider.GetService<IMapper>()!;
 
         _authorGrpcService = new AuthorGrpcService(_authorProtoServiceMock.Object, _mapper);
 
@@ -53,17 +55,25 @@ public class AuthorGrpcServiceTests
         _authorByIdProtoResponse = new GetAuthorByIdProtoResponse() {Author = _authorProtoModel};
 
         _createAuthorProtoResponse = new CreateAuthorProtoResponse() {Author = _authorProtoModel};
-        _createAuthorResponse = new CreateAuthorResponse()
-        {
-            Id = Guid.Parse(_authorProtoModel.Id),
-            Name = _authorProtoModel.Name,
-            Bio = _authorProtoModel.Bio,
-            DateOfBirth = _authorProtoModel.DateOfBirth.ToDateTime()
-        };
         _updateAuthorProtoResponse = new UpdateAuthorProtoResponse() { Status = true };
         _deleteAuthorProtoResponse = new DeleteAuthorProtoResponse() { Status = true };
     }
 
+    [Fact]
+    public async Task TestAddInfrastructureServices_AddInfrastructureServicesShould_GetServices()
+    {
+        _serviceProvider.GetService<IMapper>().Should().NotBeNull();
+        _serviceProvider.GetService<IConsulClient>().Should().BeNull();
+        _serviceProvider.GetService<AuthorProtoService.AuthorProtoServiceClient>().Should().NotBeNull();
+        _serviceProvider.GetService<IAuthorGrpcService>().Should().NotBeNull();
+        
+        var serviceName = _configuration["GrpcSettings:AuthorGrpcServiceConsulName"]!;
+        var consulClient = _serviceProvider.GetService<IConsulClient>();
+        var allRegisteredServices = consulClient?.Agent.Services().GetAwaiter().GetResult();
+        var registeredServices = allRegisteredServices?.Response?.Where(s => s.Key.Equals(serviceName, StringComparison.OrdinalIgnoreCase)).Select(x => x.Value).ToList();
+        registeredServices.Should().BeNull();
+    }
+    
     [Fact]
     public async Task TestGetAllAuthors_GetAllAuthorsShouldReturn_GetAllAuthors()
     {

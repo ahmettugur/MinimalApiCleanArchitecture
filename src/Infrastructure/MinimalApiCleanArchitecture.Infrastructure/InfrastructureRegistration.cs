@@ -10,7 +10,7 @@ namespace MinimalApiCleanArchitecture.Infrastructure;
 
 public static class InfrastructureRegistration
 {
-    public static IServiceCollection InfrastructureServices(this IServiceCollection services,IConfiguration configuration)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services,IConfiguration configuration)
     {
         
         services.AddGrpcClient<AuthorProtoService.AuthorProtoServiceClient>(o =>
@@ -21,7 +21,7 @@ public static class InfrastructureRegistration
             var allRegisteredServices = consulClient?.Agent.Services().GetAwaiter().GetResult();
 
             var registeredServices = allRegisteredServices?.Response?.Where(s => s.Key.Equals(serviceName, StringComparison.OrdinalIgnoreCase)).Select(x => x.Value).ToList();
-            if (registeredServices != null && registeredServices.Count > 0)
+            if (registeredServices is {Count: > 0})
             {
                 var consulService = registeredServices[0];
                 var uriBuilder = new UriBuilder()

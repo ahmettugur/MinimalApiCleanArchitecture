@@ -7,10 +7,6 @@ public class CreateAuthorRequest
     public string? Bio { get; private set; }
     public DateTime DateOfBirth { get; private set; }
 
-    private CreateAuthorRequest()
-    {
-        
-    }
     public CreateAuthorRequest(string? firstName, string? lastName, string? bio, DateTime dateOfBirth)
     {
         FirstName = firstName;
