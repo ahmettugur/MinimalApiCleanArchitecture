@@ -24,6 +24,7 @@ public class AuthorProfile: Profile
         CreateMap<AuthorProtoModel, CreateAuthorResponse>()
             .ForMember(dest => dest.DateOfBirth, opt =>
                 opt.MapFrom(src => src.DateOfBirth.ToDateTime()));
+        
 
         CreateMap<CreateAuthorResponse, AuthorProtoModel>()
             .ForMember(dest => dest.DateOfBirth, opt =>
@@ -34,7 +35,7 @@ public class AuthorProfile: Profile
 
         CreateMap<CreateAuthorRequest, CreateAuthorProtoRequest>()
             .ForMember(dest => dest.DateOfBirth, opt =>
-                opt.MapFrom(src => Timestamp.FromDateTime(src.DateOfBirth)));
+                opt.MapFrom(src => Timestamp.FromDateTime(src.DateOfBirth))).ReverseMap();
 
         CreateMap<UpdateAuthorRequest, UpdateAuthorProtoRequest>()
             .ForMember(dest => dest.DateOfBirth, opt =>
