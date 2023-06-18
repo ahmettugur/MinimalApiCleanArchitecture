@@ -10,7 +10,7 @@ namespace MinimalApiCleanArchitecture.Persistence;
 
 public static class PersistenceRegistration
 {
-    public static IServiceCollection PersistenceServices(this IServiceCollection services,IConfiguration configuration)
+    public static IServiceCollection AddPersistenceServices(this IServiceCollection services,IConfiguration configuration)
     {
         services.AddTransient<IAuthorReadRepository, AuthorReadRepository>();
         services.AddTransient<IAuthorWriteRepository, AuthorWriteRepository>();

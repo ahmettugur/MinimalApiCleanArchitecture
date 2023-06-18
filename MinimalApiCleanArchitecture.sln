@@ -121,6 +121,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalApiCleanArchitecture.Infrastructure.UnitTests", "tests\Infrastructure\MinimalApiCleanArchitecture.Infrastructure.UnitTests\MinimalApiCleanArchitecture.Infrastructure.UnitTests.csproj", "{8BF68EC4-EFC9-47CD-A8C3-3B8027207F3E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalApiCleanArchitecture.Persistence.UnitTest", "tests\Infrastructure\MinimalApiCleanArchitecture.Persistence.UnitTest\MinimalApiCleanArchitecture.Persistence.UnitTest.csproj", "{296B98C9-03C4-4ED2-9734-C589ADBB8C87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -171,6 +173,10 @@ Global
 		{8BF68EC4-EFC9-47CD-A8C3-3B8027207F3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BF68EC4-EFC9-47CD-A8C3-3B8027207F3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BF68EC4-EFC9-47CD-A8C3-3B8027207F3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{296B98C9-03C4-4ED2-9734-C589ADBB8C87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{296B98C9-03C4-4ED2-9734-C589ADBB8C87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{296B98C9-03C4-4ED2-9734-C589ADBB8C87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{296B98C9-03C4-4ED2-9734-C589ADBB8C87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -207,5 +213,6 @@ Global
 		{1B3883FF-4F0C-4892-AAB9-65A277FE130B} = {9BA78DE0-FA27-4D4F-A418-22CC83F4FAEF}
 		{C69495A6-F076-4ECB-A467-DB96146EDDBF} = {E1769273-4B6F-4122-9A32-7C9D0798CC3B}
 		{8BF68EC4-EFC9-47CD-A8C3-3B8027207F3E} = {C69495A6-F076-4ECB-A467-DB96146EDDBF}
+		{296B98C9-03C4-4ED2-9734-C589ADBB8C87} = {C69495A6-F076-4ECB-A467-DB96146EDDBF}
 	EndGlobalSection
 EndGlobal

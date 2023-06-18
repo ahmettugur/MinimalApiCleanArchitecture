@@ -7,6 +7,11 @@ namespace MinimalApiCleanArchitecture.Persistence;
 
 public class MinimalApiCleanArchitectureDbContext : DbContext
 {
+    public MinimalApiCleanArchitectureDbContext():base()
+    {
+
+    }
+
     public MinimalApiCleanArchitectureDbContext(DbContextOptions options) : base(options)
     {
 

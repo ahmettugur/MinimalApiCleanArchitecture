@@ -16,8 +16,7 @@ public class AddContributorCommandHandlerTests
     private readonly Mock<IBlogReadRepository> _blogReadRepository;
     private readonly Mock<IAuthorReadRepository> _authorReadRepository;
     private AddContributorCommandHandler? _addContributorCommandHandler;
-
-    private readonly IServiceCollection _services;
+    
     private readonly List<Author> _authors;
     private readonly List<Blog> _blogs;
 
@@ -26,11 +25,7 @@ public class AddContributorCommandHandlerTests
         _blogWriteRepository = new Mock<IBlogWriteRepository>();
         _blogReadRepository = new Mock<IBlogReadRepository>();
         _authorReadRepository = new Mock<IAuthorReadRepository>();
-        _services = new ServiceCollection();
-        _services.AddApplicationServices();
-        _services.AddLogging();
-
-        _services.BuildServiceProvider();
+        
 
         _authors = new List<Author>
         {

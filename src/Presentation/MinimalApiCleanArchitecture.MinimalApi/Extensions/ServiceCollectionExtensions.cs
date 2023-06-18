@@ -17,7 +17,7 @@ public static class ServiceCollectionExtensions
         });
 
         builder.Services.AddApplicationServices();
-        builder.Services.PersistenceServices(builder.Configuration);
+        builder.Services.AddPersistenceServices(builder.Configuration);
         builder.Services.AddInfrastructureServices(builder.Configuration);
         builder.Services.AddOpenTelemetryServices(builder.Configuration);
         builder.Services.ConfigureConsul(builder.Configuration);
