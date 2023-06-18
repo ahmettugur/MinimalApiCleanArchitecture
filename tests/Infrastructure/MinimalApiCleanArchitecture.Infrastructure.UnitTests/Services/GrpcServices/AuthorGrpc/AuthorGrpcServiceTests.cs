@@ -150,7 +150,7 @@ public class AuthorGrpcServiceTests
     }
 
     [Fact]
-    public async Task TestDeleteAuthor_DeleteAuthorShouldReturn_DeleteStstusTrue()
+    public async Task TestDeleteAuthor_DeleteAuthorShouldReturn_DeleteStatusTrue()
     {
         var request = new DeleteAuthorRequest(Guid.NewGuid());
         var protoRequest = _mapper.Map<DeleteAuthorProtoRequest>(request);

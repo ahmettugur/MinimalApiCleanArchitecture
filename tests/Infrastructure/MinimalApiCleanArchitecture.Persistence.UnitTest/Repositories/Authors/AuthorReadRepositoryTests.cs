@@ -57,10 +57,8 @@ public class AuthorReadRepositoryTests
         var authorId = _authors[0].Id;
 
         var mockSettings = CreateDbSetMock(_authors.AsQueryable());
-        mockSettings.Setup(m => m.FindAsync(It.IsAny<object[]>())).Returns((object[] _) =>
-        {
-            return new ValueTask<Author?>(mockSettings.Object.FirstOrDefaultAsync(b => b.Id == authorId));
-        });
+        var author = mockSettings.Object.FirstOrDefaultAsync(b => b.Id == authorId);
+        mockSettings.Setup(m => m.FindAsync(authorId)).Returns(() => new ValueTask<Author?>(author));
     
         _contextMock.Setup(x => x.Set<Author>()).Returns(mockSettings.Object);
         var repository = new AuthorReadRepository(_contextMock.Object);
@@ -68,7 +66,58 @@ public class AuthorReadRepositoryTests
         result.Should().NotBeNull();
         result?.Id.Should().Be(authorId);
     }
+
+    [Fact]
+    public async Task TestCreateAuthor_CreateAuthorShouldReturn_InsertedAuthor()
+    {
+        var author = _authors[0];
+        var authors = new List<Author>();
+        var mockSettings = CreateDbSetMock(authors.AsQueryable());
+        mockSettings.Setup(m => m.AddAsync(It.IsAny<Author>(), default)).Callback<Author, CancellationToken>((_, _) =>
+        {
+            authors.Add(author);
+        });
+
+        _contextMock.Setup(x => x.Set<Author>()).Returns(mockSettings.Object);
+        var repository = new AuthorWriteRepository(_contextMock.Object);
+        var result = await repository.AddAsync(author);
+        await repository.SaveChangesAsync();
+
+        result.Should().NotBeNull();
+    }
     
+    [Fact]
+    public async Task TestUpdateAuthor_UpdateAuthorShouldReturn_UpdateStstusTrue()
+    {
+        var author = _authors[0];
+        author.FirstName = "Jonn";
+        
+        var mockSettings = CreateDbSetMock(_authors.AsQueryable());
+        
+        _contextMock.Setup(x => x.Set<Author>()).Returns(mockSettings.Object);
+        var repository = new AuthorWriteRepository(_contextMock.Object);
+        
+        var result = repository.Update(author);
+        await repository.SaveChangesAsync();
+
+        result.FirstName.Should().Be(author.FirstName);
+    }
+    
+    [Fact]
+    public async Task TestDeleteAuthor_DeleteAuthorShouldReturn_DeleteStatusTrue()
+    {
+        var author = _authors[0];
+        
+        var mockSettings = CreateDbSetMock(_authors.AsQueryable());
+        
+        _contextMock.Setup(x => x.Set<Author>()).Returns(mockSettings.Object);
+        var repository = new AuthorWriteRepository(_contextMock.Object);
+        
+        var result = repository.Remove(author);
+        await repository.SaveChangesAsync();
+
+        result.Should().BeTrue();
+    }
     
     private static Mock<DbSet<T>> CreateDbSetMock<T>(IQueryable<T> items) where T : class
     {
