@@ -26,6 +26,14 @@ public class Blog: BaseEntity
         };
     }
 
+    public void UpdateBlog(string name, string description, Guid authorId)
+    {
+        Name = name;
+        Description = description;
+        AuthorId = authorId;
+
+    }
+
     public void AddContributor(Author author)
     {
         Contributors ??= new List<Author>();

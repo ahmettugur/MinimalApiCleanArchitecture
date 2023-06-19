@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MinimalApiCleanArchitecture.Domain.Model;
@@ -14,6 +15,7 @@ namespace MinimalApiCleanArchitecture.Persistence.UnitTest.Repositories.Authors;
 
 public class AuthorWriteRepositoryTests
 {
+    private readonly Mock<DbSet<Author>> _authorMock;
     private readonly Mock<MinimalApiCleanArchitectureDbContext> _contextMock;
     private readonly List<Author> _authors;
 
@@ -40,20 +42,21 @@ public class AuthorWriteRepositoryTests
                 Id  = Guid.NewGuid() ,FirstName = "Jon",LastName = "Doe",Bio = "Developer",DateOfBirth = new DateTime(1990,9,1)
             }
         };
+
+        _authorMock = DbSetMock.CreateDbSetMock(_authors.AsQueryable());
     }
 
     [Fact]
-    public async Task TestCreateAuthor_CreateAuthorShouldReturn_InsertedAuthor()
+    public async Task TestAuthorWriteRepositoryCreateAuthor_AuthorWriteRepositoryCreateAuthorShouldReturn_InsertedAuthor()
     {
         var author = _authors[0];
         var authors = new List<Author>();
-        var mockSettings = DbSetMock.CreateDbSetMock(authors.AsQueryable());
-        mockSettings.Setup(m => m.AddAsync(It.IsAny<Author>(), default)).Callback<Author, CancellationToken>((_, _) =>
+        _authorMock.Setup(m => m.AddAsync(It.IsAny<Author>(), default)).Callback<Author, CancellationToken>((_, _) =>
         {
             authors.Add(author);
         });
 
-        _contextMock.Setup(x => x.Set<Author>()).Returns(mockSettings.Object);
+        _contextMock.Setup(x => x.Set<Author>()).Returns(_authorMock.Object);
         var repository = new AuthorWriteRepository(_contextMock.Object);
         var result = await repository.AddAsync(author);
         await repository.SaveChangesAsync();
@@ -62,14 +65,12 @@ public class AuthorWriteRepositoryTests
     }
 
     [Fact]
-    public async Task TestUpdateAuthor_UpdateAuthorShouldReturn_UpdateStstusTrue()
+    public async Task TestAuthorWriteRepositoryUpdateAuthor_UpdateAuthorWriteRepositoryAuthorShouldReturn_UpdateStstusTrue()
     {
         var author = _authors[0];
         author.FirstName = "Jonn";
 
-        var mockSettings = DbSetMock.CreateDbSetMock(_authors.AsQueryable());
-
-        _contextMock.Setup(x => x.Set<Author>()).Returns(mockSettings.Object);
+        _contextMock.Setup(x => x.Set<Author>()).Returns(_authorMock.Object);
         var repository = new AuthorWriteRepository(_contextMock.Object);
 
         var result = repository.Update(author);
@@ -79,13 +80,11 @@ public class AuthorWriteRepositoryTests
     }
 
     [Fact]
-    public async Task TestDeleteAuthor_DeleteAuthorShouldReturn_DeleteStatusTrue()
+    public async Task TestAuthorWriteRepositoryDeleteAuthor_AuthorWriteRepositoryDeleteAuthorShouldReturn_DeleteStatusTrue()
     {
         var author = _authors[0];
 
-        var mockSettings = DbSetMock.CreateDbSetMock(_authors.AsQueryable());
-
-        _contextMock.Setup(x => x.Set<Author>()).Returns(mockSettings.Object);
+        _contextMock.Setup(x => x.Set<Author>()).Returns(_authorMock.Object);
         var repository = new AuthorWriteRepository(_contextMock.Object);
 
         var result = repository.Remove(author);
