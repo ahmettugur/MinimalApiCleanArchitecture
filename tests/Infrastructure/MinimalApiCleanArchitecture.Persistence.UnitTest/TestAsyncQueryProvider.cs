@@ -83,3 +83,4 @@ internal class TestAsyncEnumerator<T> : IAsyncEnumerator<T>
         return new ValueTask<bool>(this._enumerator.MoveNext());
     }
 }
+

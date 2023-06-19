@@ -14,14 +14,12 @@ public class GenericReadRepository<T> : IGenericReadRepository<T> where T : Base
         this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }
 
-    public virtual Task<List<T?>> Get(bool asNoTracking = false, Expression<Func<T?, bool>>? filter = null,
-        params Expression<Func<T, object?>>[] includes)
+    public virtual Task<List<T?>> Get(bool asNoTracking = false, Expression<Func<T?, bool>>? filter = null, params Expression<Func<T, object?>>[] includes)
     {
         return Get(asNoTracking, filter, null, includes);
     }
 
-    public virtual async Task<List<T?>> Get(bool asNoTracking = false, Expression<Func<T?, bool>>? filter = null,
-        Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, params Expression<Func<T, object?>>[] includes)
+    public virtual async Task<List<T?>> Get(bool asNoTracking = false, Expression<Func<T?, bool>>? filter = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, params Expression<Func<T, object?>>[] includes)
     {
         IQueryable<T> query = dbContext.Set<T>();
 
@@ -60,18 +58,7 @@ public class GenericReadRepository<T> : IGenericReadRepository<T> where T : Base
         return (await dbContext.Set<T>().ToListAsync())!;
     }
 
-    public virtual async Task<T?> GetById(Guid id, bool asNoTracking = false)
-    {
-        if (asNoTracking)
-        {
-            return await dbContext.Set<T>().AsNoTracking().FirstOrDefaultAsync(_ => _.Id == id);
-        }
-
-        return await dbContext.Set<T>().FindAsync(id);
-    }
-
-    public virtual async Task<T?> GetByIdAsync(Guid id, bool asNoTracking = false,
-        params Expression<Func<T, object?>>[] includes)
+    public virtual async Task<T?> GetByIdAsync(Guid id, bool asNoTracking = false, params Expression<Func<T, object?>>[] includes)
     {
         IQueryable<T> query = dbContext.Set<T>();
 
@@ -88,8 +75,7 @@ public class GenericReadRepository<T> : IGenericReadRepository<T> where T : Base
         return await query.FirstOrDefaultAsync(i => i.Id == id);
     }
 
-    public virtual async Task<T?> GetSingleAsync(Expression<Func<T, bool>> filter, bool asNoTracking = false,
-        params Expression<Func<T, object?>>[] includes)
+    public virtual async Task<T?> GetSingleAsync(Expression<Func<T, bool>> filter, bool asNoTracking = false, params Expression<Func<T, object?>>[] includes)
     {
         IQueryable<T> query = dbContext.Set<T>();
 
