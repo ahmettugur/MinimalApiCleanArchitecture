@@ -43,7 +43,7 @@ public class BlogReadRepositoryTests
     {
         _contextMock.Setup(x => x.Set<Blog>()).Returns(_blogMock.Object);
         var repository = new BlogReadRepository(_contextMock.Object);
-        var result = await repository.GetAll();
+        var result = await repository.GetAll(true);
         
         Assert.Equal(_blogs, result!);
     }
@@ -53,13 +53,13 @@ public class BlogReadRepositoryTests
     {
         _contextMock.Setup(x => x.Set<Blog>()).Returns(_blogMock.Object);
         var repository = new BlogReadRepository(_contextMock.Object);
-        var result = await repository.Get(false, x => x!.Id == _blogs[0].Id,x => x.OrderBy(_=> _.CreatedDate));
+        var result = await repository.Get(true, x => x!.Id == _blogs[0].Id,x => x.OrderBy(_=> _.CreatedDate),_=> _.Contributors);
 
         Assert.Equal(_blogs, result!);
     }
 
     [Fact]
-    public async Task TestBlogReadRepositoryGetuthors_BlogReadRepositoryGetBlogsWithParametersShouldReturn_GetAllBlogs()
+    public async Task TestBlogReadRepositoryGetBlogs_BlogReadRepositoryGetBlogsWithParametersShouldReturn_GetAllBlogs()
     {
         _contextMock.Setup(x => x.Set<Blog>()).Returns(_blogMock.Object);
         var repository = new BlogReadRepository(_contextMock.Object);
@@ -78,7 +78,7 @@ public class BlogReadRepositoryTests
     
         _contextMock.Setup(x => x.Set<Blog>()).Returns(_blogMock.Object);
         var repository = new BlogReadRepository(_contextMock.Object);
-        var result = await repository.GetByIdAsync(blogId);
+        var result = await repository.GetByIdAsync(blogId,true,_=> _.Contributors);
         result.Should().NotBeNull();
         result?.Id.Should().Be(blogId);
     }
@@ -93,9 +93,11 @@ public class BlogReadRepositoryTests
 
         _contextMock.Setup(x => x.Set<Blog>()).Returns(_blogMock.Object);
         var repository = new BlogReadRepository(_contextMock.Object);
-        var result = await repository.GetSingleAsync(_=> _.Id == blogId);
+        var result = await repository.GetSingleAsync(_=> _.Id == blogId,true,_=> _.Contributors);
         result.Should().NotBeNull();
         result?.Id.Should().Be(blogId);
+        
+        
     }
 
 }
