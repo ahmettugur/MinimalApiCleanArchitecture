@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MinimalApiCleanArchitecture.Domain.Model;
 using MinimalApiCleanArchitecture.Persistence.Repositories.Blogs;
-using MinimalApiCleanArchitecture.Persistence.Repositories.Blogs;
 using Moq;
 
 namespace MinimalApiCleanArchitecture.Persistence.UnitTest.Repositories.Blogs;
