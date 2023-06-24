@@ -125,6 +125,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalApiCleanArchitecture
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalApiCleanArchitecture.Application.IntegrationTests", "tests\Core\MinimalApiCleanArchitecture.Application.IntegrationTests\MinimalApiCleanArchitecture.Application.IntegrationTests.csproj", "{63896831-6B60-41E5-99EB-67346FE25BA0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test-compose", "test-compose", "{4E3673DE-15F4-470A-9333-226C236E96D1}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose\test-compose\docker-compose.override.yml = docker-compose\test-compose\docker-compose.override.yml
+		docker-compose\test-compose\docker-compose.yml = docker-compose\test-compose\docker-compose.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -221,5 +227,6 @@ Global
 		{8BF68EC4-EFC9-47CD-A8C3-3B8027207F3E} = {C69495A6-F076-4ECB-A467-DB96146EDDBF}
 		{296B98C9-03C4-4ED2-9734-C589ADBB8C87} = {C69495A6-F076-4ECB-A467-DB96146EDDBF}
 		{63896831-6B60-41E5-99EB-67346FE25BA0} = {9BA78DE0-FA27-4D4F-A418-22CC83F4FAEF}
+		{4E3673DE-15F4-470A-9333-226C236E96D1} = {9FE6958F-3CAA-4147-819B-1482D6669FA9}
 	EndGlobalSection
 EndGlobal

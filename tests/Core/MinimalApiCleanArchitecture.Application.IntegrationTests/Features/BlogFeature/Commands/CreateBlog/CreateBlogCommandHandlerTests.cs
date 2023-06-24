@@ -9,7 +9,7 @@ using static Testing;
 public class CreateBlogCommandHandlerTests: BaseTestFixture
 {
     [Fact]
-    public async Task ShouldRequireMinimumFields()
+    public async Task TestCreateBlog_CreateBlogWithInValidCommandShouldReturn_ValidationError()
     {
         var command = new CreateBlogCommand("","",Guid.NewGuid());
 

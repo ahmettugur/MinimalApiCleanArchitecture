@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MinimalApiCleanArchitecture.ApplicationDefaultConnection.IntegrationTests;
 using MinimalApiCleanArchitecture.Persistence;
 namespace MinimalApiCleanArchitecture.Application.IntegrationTests;
 
@@ -27,7 +28,7 @@ internal class CustomWebApplicationFactory : WebApplicationFactory<Program>
             services
                 .Remove<DbContextOptions<MinimalApiCleanArchitectureDbContext>>()
                 .AddDbContext<MinimalApiCleanArchitectureDbContext>((sp, options) =>
-                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("Default"),
                         builder => builder.MigrationsAssembly(typeof(MinimalApiCleanArchitectureDbContext).Assembly.FullName)));
         });
     }

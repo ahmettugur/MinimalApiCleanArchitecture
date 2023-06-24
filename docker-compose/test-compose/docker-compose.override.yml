@@ -1,0 +1,100 @@
+version: '3.8'
+
+services:
+  minimal-api-clean-architecture-db:
+    container_name: minimal-api-clean-architecture-db
+    environment:
+      SA_PASSWORD: "Ahmet1990"
+      ACCEPT_EULA: "Y"
+    restart: always
+    ports:
+      - '1453:1433'
+    networks:
+      - blogNetwork
+
+  portainer:
+    container_name: portainer
+    restart: always
+    ports:
+      - "8080:8000"
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    networks:
+      - blogNetwork
+  elasticsearch:
+    container_name: elasticsearch
+    restart: always
+    volumes:
+      - ../elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,Z
+      - elasticsearch:/usr/share/elasticsearch/data:Z
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      node.name: elasticsearch
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+      discovery.type: single-node
+    networks:
+      - blogNetwork
+    
+  kibana:
+    container_name: kibana
+    restart: always
+    volumes:
+      - ../kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,Z
+    ports:
+      - 5601:5601
+    networks:
+      - blogNetwork
+    depends_on:
+      - elasticsearch
+
+  rabbitmq:
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+      RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    networks:
+      - blogNetwork
+  jaeger:
+    container_name: jaeger
+    environment:
+      - SPAN_STORAGE_TYPE=badger
+      - BADGER_EPHEMERAL=false
+      - BADGER_DIRECTORY_VALUE=/badger/data
+      - BADGER_DIRECTORY_KEY=/badger/key
+    ports:
+      - 5775:5775/udp
+      - 6831:6831/udp
+      - 6832:6832/udp
+      - 5778:5778
+      - 16686:16686
+      - 14268:14268
+      - 14250:14250
+      #- 9411:9411
+    volumes:
+      - jaeger-data:/badger
+    networks:
+      - blogNetwork
+  zipkin-server:
+    container_name: zipkin-server
+    ports:
+      - '9411:9411'
+    networks:
+      - blogNetwork
+
+  consul:
+    container_name: consul
+    ports:
+      - 8500:8500
+      - 8600:8600/tcp
+      - 8600:8600/udp
+    networks:
+      - blogNetwork
