@@ -4,7 +4,7 @@ using static Testing;
 
 public class BaseTestFixture
 {
-    public BaseTestFixture()
+    protected BaseTestFixture()
     {
         ResetState().GetAwaiter().GetResult();
         RunBeforeAnyTests();
