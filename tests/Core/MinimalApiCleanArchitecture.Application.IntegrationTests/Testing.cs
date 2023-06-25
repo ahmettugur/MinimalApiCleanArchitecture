@@ -15,8 +15,7 @@ public class Testing
     private static IConfiguration _configuration = null!;
     private static IServiceScopeFactory _scopeFactory = null!;
     private static Respawner _checkpoint = null!;
-    private static string? _currentUserId;
-    
+
     public static void RunBeforeAnyTests()
     {
         _factory = new CustomWebApplicationFactory();
@@ -46,13 +45,7 @@ public class Testing
 
         await mediator.Send(request);
     }
-
-    public static string? GetCurrentUserId()
-    {
-        return _currentUserId;
-    }
     
- 
     public static async Task ResetState()
     {
         try
@@ -63,8 +56,6 @@ public class Testing
         {
             // ignored
         }
-
-        _currentUserId = null;
     }
 
     public static async Task<TEntity?> FindAsync<TEntity>(params object[] keyValues)
