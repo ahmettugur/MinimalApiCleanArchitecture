@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MinimalApiCleanArchitecture.ApplicationDefaultConnection.IntegrationTests;
+namespace MinimalApiCleanArchitecture.Application.IntegrationTests;
 
 public static class ServiceCollectionExtensions
 {

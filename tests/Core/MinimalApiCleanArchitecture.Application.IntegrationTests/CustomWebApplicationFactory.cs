@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MinimalApiCleanArchitecture.ApplicationDefaultConnection.IntegrationTests;
 using MinimalApiCleanArchitecture.Persistence;
 namespace MinimalApiCleanArchitecture.Application.IntegrationTests;
 

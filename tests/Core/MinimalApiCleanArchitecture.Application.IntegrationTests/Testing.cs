@@ -9,7 +9,7 @@ using Respawn;
 namespace MinimalApiCleanArchitecture.Application.IntegrationTests;
 
 
-public class Testing
+public abstract class Testing
 {
     private static WebApplicationFactory<Program> _factory = null!;
     private static IConfiguration _configuration = null!;
