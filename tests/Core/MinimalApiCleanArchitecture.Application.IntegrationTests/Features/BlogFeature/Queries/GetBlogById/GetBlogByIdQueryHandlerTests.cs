@@ -2,9 +2,8 @@ using FluentAssertions;
 using MinimalApiCleanArchitecture.Application.Common.Results;
 using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Commands.CreateAuthor;
 using MinimalApiCleanArchitecture.Application.Features.BlogFeature.Commands.CreateBlog;
-using MinimalApiCleanArchitecture.Application.Features.BlogFeature.Queries.GetAllBlogs;
 using MinimalApiCleanArchitecture.Application.Features.BlogFeature.Queries.GetBlogById;
-using MinimalApiCleanArchitecture.Domain.Model;
+using NUnit.Framework;
 
 namespace MinimalApiCleanArchitecture.Application.IntegrationTests.Features.BlogFeature.Queries.GetBlogById;
 using static Testing;
@@ -12,7 +11,7 @@ using static Testing;
 public class GetBlogByIdQueryHandlerTests: BaseTestFixture
 {
 
-    [Fact]
+    [Test]
     public async Task TestGetAllBlogById_GetAllBlogByIdShouldReturn_SuccessDataResult()
     {
         var authorCommand = new CreateAuthorCommand("Jon", "Doe", "Developer", new DateTime(1990, 9, 1));
@@ -35,7 +34,7 @@ public class GetBlogByIdQueryHandlerTests: BaseTestFixture
 
     }
     
-    [Fact]
+    [Test]
     public async Task TestGetAllBlogById_GetAllBlogByIdShouldReturn_ErrorDataResult()
     {
         var blogId = Guid.NewGuid();

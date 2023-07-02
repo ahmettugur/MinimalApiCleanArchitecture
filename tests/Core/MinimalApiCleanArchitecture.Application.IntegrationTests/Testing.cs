@@ -4,18 +4,21 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MinimalApiCleanArchitecture.Persistence;
+using NUnit.Framework;
 using Respawn;
 
 namespace MinimalApiCleanArchitecture.Application.IntegrationTests;
 
 
-public abstract class Testing
+[SetUpFixture]
+public class Testing
 {
     private static WebApplicationFactory<Program> _factory = null!;
     private static IConfiguration _configuration = null!;
     private static IServiceScopeFactory _scopeFactory = null!;
     private static Respawner _checkpoint = null!;
 
+    [OneTimeSetUp]
     public static void RunBeforeAnyTests()
     {
         _factory = new CustomWebApplicationFactory();
@@ -28,7 +31,7 @@ public abstract class Testing
         }).GetAwaiter().GetResult();
     }
 
-    public static async Task<TResponse> SendAsync<TResponse>(IRequest<TResponse> request)
+    public static async Task<TResponse> SendAsync<TResponse>(IRequest<TResponse>? request)
     {
         using var scope = _scopeFactory.CreateScope();
 
@@ -36,56 +39,9 @@ public abstract class Testing
 
         return await mediator.Send(request);
     }
-
-    public static async Task SendAsync(IBaseRequest request)
-    {
-        using var scope = _scopeFactory.CreateScope();
-
-        var mediator = scope.ServiceProvider.GetRequiredService<ISender>();
-
-        await mediator.Send(request);
-    }
     
     public static async Task ResetState()
     {
-        try
-        {
-            await _checkpoint.ResetAsync(_configuration.GetConnectionString("Default")!);
-        }
-        catch (Exception) 
-        {
-            // ignored
-        }
-    }
-
-    public static async Task<TEntity?> FindAsync<TEntity>(params object[] keyValues)
-        where TEntity : class
-    {
-        using var scope = _scopeFactory.CreateScope();
-
-        var context = scope.ServiceProvider.GetRequiredService<MinimalApiCleanArchitectureDbContext>();
-
-        return await context.FindAsync<TEntity>(keyValues);
-    }
-
-    public static async Task AddAsync<TEntity>(TEntity entity)
-        where TEntity : class
-    {
-        using var scope = _scopeFactory.CreateScope();
-
-        var context = scope.ServiceProvider.GetRequiredService<MinimalApiCleanArchitectureDbContext>();
-
-        context.Add(entity);
-
-        await context.SaveChangesAsync();
-    }
-
-    public static async Task<int> CountAsync<TEntity>() where TEntity : class
-    {
-        using var scope = _scopeFactory.CreateScope();
-
-        var context = scope.ServiceProvider.GetRequiredService<MinimalApiCleanArchitectureDbContext>();
-
-        return await context.Set<TEntity>().CountAsync();
+        await _checkpoint.ResetAsync(_configuration.GetConnectionString("Default")!);
     }
 }

@@ -1,16 +1,15 @@
+using NUnit.Framework;
+
 namespace MinimalApiCleanArchitecture.Application.IntegrationTests;
 
 using static Testing;
 
-public class BaseTestFixture
+[TestFixture]
+public abstract class BaseTestFixture
 {
-    public BaseTestFixture()
+    [SetUp]
+    public async Task TestSetUp()
     {
-        RunBeforeAnyTests();
-    }
-    
-    ~  BaseTestFixture()
-    {
-        ResetState().GetAwaiter().GetResult();
+        await ResetState();
     }
 }

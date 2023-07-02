@@ -3,6 +3,7 @@ using MinimalApiCleanArchitecture.Application.Common.Exceptions;
 using MinimalApiCleanArchitecture.Application.Common.Results;
 using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Commands.CreateAuthor;
 using MinimalApiCleanArchitecture.Application.Features.BlogFeature.Commands.CreateBlog;
+using NUnit.Framework;
 
 namespace MinimalApiCleanArchitecture.Application.IntegrationTests.Features.BlogFeature.Commands.CreateBlog;
 
@@ -10,16 +11,15 @@ using static Testing;
 
 public class CreateBlogCommandHandlerTests: BaseTestFixture
 {
-    [Fact]
+    [Test]
     public async Task TestCreateBlog_CreateBlogWithInValidCommandShouldReturn_ValidationError()
     {
         var command = new CreateBlogCommand("","",Guid.NewGuid());
 
-        await FluentActions.Invoking(() =>
-            SendAsync(command)).Should().ThrowAsync<ValidationException>();
+        await FluentActions.Invoking(() => SendAsync(command)).Should().ThrowAsync<ValidationException>();
     }
 
-    [Fact]
+    [Test]
     public async Task TestCreateBlog_CreateBlogWithInvalidAuthor_ShouldReturn_ErrorDataResult()
     {
         var command = new CreateBlogCommand("C¢QRS & Event Sourcing","Microservices",Guid.NewGuid());
@@ -31,7 +31,7 @@ public class CreateBlogCommandHandlerTests: BaseTestFixture
     }
 
     
-    [Fact]
+    [Test]
     public async Task TestCreateBlog_CreateBlogWithValidCommandShouldReturn_SuccessDataResult()
     {
         var authorCommand = new CreateAuthorCommand("Jon", "Doe", "Developer", new DateTime(1990, 9, 1));

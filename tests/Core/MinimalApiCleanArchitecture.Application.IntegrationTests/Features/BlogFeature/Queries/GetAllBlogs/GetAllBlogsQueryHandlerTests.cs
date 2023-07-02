@@ -1,6 +1,7 @@
 using FluentAssertions;
 using MinimalApiCleanArchitecture.Application.Common.Results;
 using MinimalApiCleanArchitecture.Application.Features.BlogFeature.Queries.GetAllBlogs;
+using NUnit.Framework;
 
 namespace MinimalApiCleanArchitecture.Application.IntegrationTests.Features.BlogFeature.Queries.GetAllBlogs;
 
@@ -9,7 +10,7 @@ using static Testing;
 public class GetAllBlogsQueryHandlerTests: BaseTestFixture
 {
 
-    [Fact]
+    [Test]
     public async Task TestGetAllBlogs_GetAllBlogsShouldReturn_SuccessDataResult()
     {
         var query = new GetAllBlogsQuery();

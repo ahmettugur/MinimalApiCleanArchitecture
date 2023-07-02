@@ -4,16 +4,16 @@ using MinimalApiCleanArchitecture.Application.Common.Results;
 using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Commands.CreateAuthor;
 using MinimalApiCleanArchitecture.Application.Features.BlogFeature.Commands.AddContributor;
 using MinimalApiCleanArchitecture.Application.Features.BlogFeature.Commands.CreateBlog;
-using MinimalApiCleanArchitecture.Domain.Model;
+using NUnit.Framework;
 
 namespace MinimalApiCleanArchitecture.Application.IntegrationTests.Features.BlogFeature.Commands.AddContributor;
 
 using static Testing;
 
-public class AddContributorCommandHandlerTests: BaseTestFixture
+public class AddContributorCommandHandlerTests
 {
     
-    [Fact]
+    [Test]
     public async Task TestAddContributor_AddContributorShouldReturn_SuccessDataResult()
     {
 
@@ -41,7 +41,7 @@ public class AddContributorCommandHandlerTests: BaseTestFixture
 
     }
     
-    [Fact]
+    [Test]
     public async Task TestAddContributor_AddContributorNoneExistentAuthorShouldReturn_ThrowNotfoundException()
     {
         var authorCommand = new CreateAuthorCommand("Jon", "Doe", "Developer", new DateTime(1990, 9, 1));
@@ -55,7 +55,7 @@ public class AddContributorCommandHandlerTests: BaseTestFixture
         await FluentActions.Invoking(() => SendAsync(command)).Should().ThrowAsync<NotFoundException>();
     }
     
-    [Fact]
+    [Test]
     public async Task TestAddContributor_AddContributorNoneExistentBlogShouldReturn_ThrowNotfoundException()
     {
         var authorCommand = new CreateAuthorCommand("Jon", "Doe", "Developer", new DateTime(1990, 9, 1));

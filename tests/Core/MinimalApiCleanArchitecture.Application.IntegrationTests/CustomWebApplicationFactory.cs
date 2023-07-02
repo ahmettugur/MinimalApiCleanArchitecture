@@ -6,8 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using MinimalApiCleanArchitecture.Persistence;
 namespace MinimalApiCleanArchitecture.Application.IntegrationTests;
 
-using static Testing;
-
 internal class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)

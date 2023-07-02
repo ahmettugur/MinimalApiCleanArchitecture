@@ -5,6 +5,7 @@ using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Commands.Cr
 using MinimalApiCleanArchitecture.Application.Features.BlogFeature.Commands.AddContributor;
 using MinimalApiCleanArchitecture.Application.Features.BlogFeature.Commands.CreateBlog;
 using MinimalApiCleanArchitecture.Application.Features.BlogFeature.Commands.RemoveContributor;
+using NUnit.Framework;
 
 namespace MinimalApiCleanArchitecture.Application.IntegrationTests.Features.BlogFeature.Commands.RemoveContributor;
 
@@ -12,7 +13,7 @@ using static Testing;
 
 public class RemoveContributorCommandHandlerTests: BaseTestFixture
 {
-    [Fact]
+    [Test]
     public async Task TestRemoveContributor_RemoveContributorShouldReturn_NoException()
     {
         var authorCommand = new CreateAuthorCommand("Jon", "Doe", "Developer", new DateTime(1990, 9, 1));
@@ -39,7 +40,7 @@ public class RemoveContributorCommandHandlerTests: BaseTestFixture
     }
     
     
-    [Fact]
+    [Test]
     public async Task TestRemoveContributor_RemoveContributorShouldReturn_AuthorNotFoundException()
     {
         var authorCommand = new CreateAuthorCommand("Jon", "Doe", "Developer", new DateTime(1990, 9, 1));
@@ -61,7 +62,7 @@ public class RemoveContributorCommandHandlerTests: BaseTestFixture
         await FluentActions.Invoking(() => SendAsync(removeContributorCommand)).Should().ThrowAsync<NotFoundException>();
     }
     
-    [Fact]
+    [Test]
     public async Task TestAddAndRemoveContributor_RemoveContributorShouldReturn_BlogNotFoundException()
     {
         var authorCommand = new CreateAuthorCommand("Jon", "Doe", "Developer", new DateTime(1990, 9, 1));

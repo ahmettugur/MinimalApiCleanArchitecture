@@ -4,6 +4,7 @@ using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Commands.Cr
 using MinimalApiCleanArchitecture.Application.Features.BlogFeature.Commands.AddContributor;
 using MinimalApiCleanArchitecture.Application.Features.BlogFeature.Commands.CreateBlog;
 using MinimalApiCleanArchitecture.Application.Features.BlogFeature.Queries.GetBlogContributors;
+using NUnit.Framework;
 
 namespace MinimalApiCleanArchitecture.Application.IntegrationTests.Features.BlogFeature.Queries.GetBlogContributors;
 
@@ -12,7 +13,7 @@ using static Testing;
 public class GetBlogContributorsQueryHandlerTests: BaseTestFixture
 {
 
-    [Fact]
+    [Test]
     public async Task TestGetBlogContributors_GetBlogContributorsShouldReturn_SuccessDataResult()
     { 
        
@@ -41,7 +42,7 @@ public class GetBlogContributorsQueryHandlerTests: BaseTestFixture
         
     }
     
-    [Fact]
+    [Test]
     public async Task TestGetBlogContributors_GetBlogContributorsShouldReturn_ErrorDataResult()
     {
         var blogId = Guid.NewGuid();
