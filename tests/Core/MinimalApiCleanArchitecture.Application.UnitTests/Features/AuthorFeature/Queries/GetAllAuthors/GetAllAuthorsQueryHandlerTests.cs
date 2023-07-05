@@ -56,7 +56,7 @@ public class GetAllAuthorsQueryHandlerTests
         
         var requestHandlerDelegate = new RequestHandlerDelegate<List<GetAllAuthorsResponse>>(() =>
         {
-            Thread.Sleep(1000);
+            Task.Delay(500).GetAwaiter().GetResult();
             return _getAllAuthorsQueryHandler.Handle(query, CancellationToken.None);
         });
 
