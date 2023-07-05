@@ -2,6 +2,7 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MinimalApiCleanArchitecture.Application.Interfaces.Repositories.Blogs;
 using MinimalApiCleanArchitecture.Domain.Model;
 using MinimalApiCleanArchitecture.Persistence.Repositories.Blogs;
 using Moq;
@@ -13,20 +14,21 @@ public class BlogReadRepositoryTests
     private readonly Mock<DbSet<Blog>> _blogMock;
     private readonly Mock<MinimalApiCleanArchitectureDbContext> _contextMock;
     private readonly List<Blog> _blogs;
-
+    private readonly IServiceProvider _serviceProvider;
+    private readonly IConfigurationRoot _configuration;
 
     public BlogReadRepositoryTests()
     {
-        var configuration = new ConfigurationBuilder()
+        _configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json")
             .Build();
         
         IServiceCollection services = new ServiceCollection();
-        services.AddPersistenceServices(configuration);
+        services.AddPersistenceServices(_configuration);
         services.AddLogging();
 
-        services.BuildServiceProvider();
+        _serviceProvider = services.BuildServiceProvider();
 
         _contextMock = new Mock<MinimalApiCleanArchitectureDbContext>();
 
@@ -39,6 +41,14 @@ public class BlogReadRepositoryTests
     }
 
     [Fact]
+    public void TestAddPersistenceServices_AddPersistenceServicesForBlogShould_GetServices()
+    {
+        _serviceProvider.GetService<IBlogReadRepository>().Should().NotBeNull();
+        _serviceProvider.GetService<IBlogWriteRepository>().Should().NotBeNull();
+
+    }
+    
+    [Fact]
     public async Task TestBlogReadRepositoryGetAllBlogs_BlogReadRepositoryGetAllBlogsParametersShouldReturn_GetAllBlogs()
     {
         _contextMock.Setup(x => x.Set<Blog>()).Returns(_blogMock.Object);
@@ -46,6 +56,8 @@ public class BlogReadRepositoryTests
         var result = await repository.GetAll(true);
         
         Assert.Equal(_blogs, result!);
+        
+        _contextMock.Object.Blogs.Should().NotBeNull();
     }
 
     [Fact]

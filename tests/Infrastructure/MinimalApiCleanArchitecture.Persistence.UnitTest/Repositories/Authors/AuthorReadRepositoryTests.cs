@@ -2,6 +2,7 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MinimalApiCleanArchitecture.Application.Interfaces.Repositories.Authors;
 using MinimalApiCleanArchitecture.Domain.Model;
 using MinimalApiCleanArchitecture.Persistence.Repositories.Authors;
 using Moq;
@@ -13,20 +14,21 @@ public class AuthorReadRepositoryTests
     private readonly Mock<DbSet<Author>> _authorMock;
     private readonly Mock<MinimalApiCleanArchitectureDbContext> _contextMock;
     private readonly List<Author> _authors;
-
+    private readonly IServiceProvider _serviceProvider;
+    private readonly IConfigurationRoot _configuration;
 
     public AuthorReadRepositoryTests()
     {
-        var configuration = new ConfigurationBuilder()
+        _configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json")
             .Build();
         
         IServiceCollection services = new ServiceCollection();
-        services.AddPersistenceServices(configuration);
+        services.AddPersistenceServices(_configuration);
         services.AddLogging();
 
-        services.BuildServiceProvider();
+        _serviceProvider = services.BuildServiceProvider();
 
         _contextMock = new Mock<MinimalApiCleanArchitectureDbContext>();
         
@@ -40,6 +42,14 @@ public class AuthorReadRepositoryTests
 
         _authorMock = DbSetMock.CreateDbSetMock(_authors.AsQueryable());
     }
+    
+    
+    [Fact]
+    public void TestAddPersistenceServices_AddPersistenceServicesForAuthorShould_GetServices()
+    {
+        _serviceProvider.GetService<IAuthorReadRepository>().Should().NotBeNull();
+        _serviceProvider.GetService<IAuthorWriteRepository>().Should().NotBeNull();
+    }
 
     [Fact]
     public async Task TestAuthorReadRepositoryGetAllAuthors_AuthorReadRepositoryGetAllAuthorsParametersShouldReturn_GetAllAuthors()
@@ -49,6 +59,7 @@ public class AuthorReadRepositoryTests
         var result = await repository.GetAll();
         
         Assert.Equal(_authors, result!);
+        _contextMock.Object.Authors.Should().NotBeNull();
     }
 
     [Fact]
@@ -62,7 +73,7 @@ public class AuthorReadRepositoryTests
     }
 
     [Fact]
-    public async Task TestAuthorReadRepositoryGetuthors_AuthorReadRepositoryGetAuthorsWithParametersShouldReturn_GetAllAuthors()
+    public async Task TestAuthorReadRepositoryGetAuthors_AuthorReadRepositoryGetAuthorsWithParametersShouldReturn_GetAllAuthors()
     {
         _contextMock.Setup(x => x.Set<Author>()).Returns(_authorMock.Object);
         var repository = new AuthorReadRepository(_contextMock.Object);
