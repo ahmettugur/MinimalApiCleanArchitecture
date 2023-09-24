@@ -7,7 +7,7 @@ namespace MinimalApiCleanArchitecture.Persistence;
 
 public class MinimalApiCleanArchitectureDbContext : DbContext
 {
-    public MinimalApiCleanArchitectureDbContext():base()
+    public MinimalApiCleanArchitectureDbContext()
     {
 
     }
@@ -17,8 +17,8 @@ public class MinimalApiCleanArchitectureDbContext : DbContext
 
     }
     
-    public DbSet<Blog> Blogs { get; set; }
-    public DbSet<Author> Authors { get; set; }
+    public DbSet<Blog> Blogs { get; set; } = null!;
+    public DbSet<Author> Authors { get; set; } = null!;
 }
 
 public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<MinimalApiCleanArchitectureDbContext>
