@@ -58,7 +58,7 @@ namespace MinimalApiCleanArchitecture.Application.UnitTests.Features.BlogFeature
             blog.Contributors.Should().HaveCountGreaterThan(0);
 
 
-            _blogReadRepository.Setup(x => x.GetByIdAsync(blog.Id, false, _ => _!.Contributors)).ReturnsAsync(blog);
+            _blogReadRepository.Setup(x => x.GetByIdAsync(blog.Id, false, b => b!.Contributors)).ReturnsAsync(blog);
 
             var removeContributorCommand = new RemoveContributorCommand(blog.Id, author.Id);
             _removeContributorCommandHandler = new RemoveContributorCommandHandler(_blogReadRepository.Object, _blogWriteRepository.Object, _authorReadRepository.Object);
@@ -89,13 +89,13 @@ namespace MinimalApiCleanArchitecture.Application.UnitTests.Features.BlogFeature
             addContributorResult.Success.Should().Be(true);
             blog.Contributors.Should().HaveCountGreaterThan(0);
 
-            _blogReadRepository.Setup(x => x.GetByIdAsync(blog.Id, false, _ => _!.Contributors)).ReturnsAsync(blog);
+            _blogReadRepository.Setup(x => x.GetByIdAsync(blog.Id, false, b => b!.Contributors)).ReturnsAsync(blog);
 
             author.Id = Guid.NewGuid();
             var removeContributorCommand = new RemoveContributorCommand(blog.Id, author.Id);
             _removeContributorCommandHandler = new RemoveContributorCommandHandler(_blogReadRepository.Object, _blogWriteRepository.Object, _authorReadRepository.Object);
             
-            Assert.ThrowsAny<NotFoundException>( () => _removeContributorCommandHandler.Handle(removeContributorCommand, CancellationToken.None).GetAwaiter().GetResult());
+            await Assert.ThrowsAnyAsync<NotFoundException>( () => _removeContributorCommandHandler.Handle(removeContributorCommand, CancellationToken.None));
             
         }
 
@@ -118,12 +118,12 @@ namespace MinimalApiCleanArchitecture.Application.UnitTests.Features.BlogFeature
             addContributorResult.Success.Should().Be(true);
             blog.Contributors.Should().HaveCountGreaterThan(0);
 
-            _blogReadRepository.Setup(x => x.GetByIdAsync(blog.Id, false, _ => _!.Contributors)).ReturnsAsync(blog);
+            _blogReadRepository.Setup(x => x.GetByIdAsync(blog.Id, false, b => b!.Contributors)).ReturnsAsync(blog);
 
             blog.Id = Guid.NewGuid();
             var removeContributorCommand = new RemoveContributorCommand(blog.Id, author.Id);
             _removeContributorCommandHandler = new RemoveContributorCommandHandler(_blogReadRepository.Object, _blogWriteRepository.Object, _authorReadRepository.Object);
-            Assert.ThrowsAny<NotFoundException>( () => _removeContributorCommandHandler.Handle(removeContributorCommand, CancellationToken.None).GetAwaiter().GetResult());
+            await Assert.ThrowsAnyAsync<NotFoundException>( () => _removeContributorCommandHandler.Handle(removeContributorCommand, CancellationToken.None));
      
         }
     }

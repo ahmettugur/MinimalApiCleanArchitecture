@@ -13,7 +13,7 @@
 
     <ItemGroup>
         <PackageReference Include="Consul" Version="1.6.10.9" />
-        <PackageReference Include="Grpc.AspNetCore" Version="2.53.0" />
+        <PackageReference Include="Grpc.AspNetCore" Version="2.57.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 

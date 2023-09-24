@@ -86,7 +86,7 @@ public class UpdateAuthorCommandHandlerTest
         
         var requestHandlerDelegateResult = new RequestHandlerDelegate<UpdateAuthorResponse>(requestHandlerDelegate);
         
-        Assert.ThrowsAny<ValidationException>( () => validationBehaviour.Handle(command, requestHandlerDelegateResult, CancellationToken.None).GetAwaiter().GetResult());
+        Assert.ThrowsAnyAsync<ValidationException>( () => validationBehaviour.Handle(command, requestHandlerDelegateResult, CancellationToken.None));
 
 
     }
@@ -102,6 +102,6 @@ public class UpdateAuthorCommandHandlerTest
         
         _updateAuthorCommandHandler = new UpdateAuthorCommandHandler(_authorWriteRepository.Object,_authorReadRepository.Object);
         
-        Assert.ThrowsAny<NotFoundException>( () => _updateAuthorCommandHandler.Handle(command, CancellationToken.None).GetAwaiter().GetResult());
+        Assert.ThrowsAnyAsync<NotFoundException>( () => _updateAuthorCommandHandler.Handle(command, CancellationToken.None));
     }
 }

@@ -56,7 +56,7 @@ public class DeleteAuthorCommandHandlerTests
     }
 
     [Fact]
-    public void TestDeleteAuthor_DeleteAuthorShouldReturn_NotFoundException()
+    public async Task TestDeleteAuthor_DeleteAuthorShouldReturn_NotFoundException()
     {
         var authorId = Guid.NewGuid();
         _authorReadRepository.Setup(_ => _.GetByIdAsync(_author.Id, false)).ReturnsAsync(_author);
@@ -65,8 +65,8 @@ public class DeleteAuthorCommandHandlerTests
         var command = _mapper.Map<DeleteAuthorCommand>(deleteAuthorRequest);
         _deleteAuthorCommandHandler = new DeleteAuthorCommandHandler(_authorWriteRepository.Object, _authorReadRepository.Object);
 
-        Action act = () => _deleteAuthorCommandHandler.Handle(command, CancellationToken.None).GetAwaiter().GetResult();
-        act.Should().Throw<NotFoundException>().WithMessage($"Author cannot found with id: {authorId}");
+        Func<Task> act = async () => await _deleteAuthorCommandHandler.Handle(command, CancellationToken.None);
+        await act.Should().ThrowAsync<NotFoundException>().WithMessage($"Author cannot found with id: {authorId}");
 
     }
 }

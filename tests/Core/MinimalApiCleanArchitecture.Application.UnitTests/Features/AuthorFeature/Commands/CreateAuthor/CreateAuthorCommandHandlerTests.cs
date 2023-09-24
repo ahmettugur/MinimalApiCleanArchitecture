@@ -75,7 +75,7 @@ public class CreateAuthorCommandHandlerTests
     }
     
     [Fact]
-    public void TestCreateAuthor_CreateAuthorWithInValidCommandShouldReturn_ValidationException()
+    public async Task TestCreateAuthor_CreateAuthorWithInValidCommandShouldReturn_ValidationException()
     {
         var author = _authors[0];
 
@@ -90,8 +90,8 @@ public class CreateAuthorCommandHandlerTests
         var requestHandlerDelegateResult = new RequestHandlerDelegate<CreateAuthorResponse>(requestHandlerDelegate);
         requestHandlerDelegateResult.Should().NotBeNull();
         
-        Action act = () => validationBehaviour.Handle(command, requestHandlerDelegateResult, CancellationToken.None).GetAwaiter().GetResult();
-        act.Should().Throw<ValidationException>();
+        Func<Task>  act = async () => await validationBehaviour.Handle(command, requestHandlerDelegateResult, CancellationToken.None);
+        await act.Should().ThrowAsync<ValidationException>();
     }
     
     [Fact]
@@ -107,7 +107,7 @@ public class CreateAuthorCommandHandlerTests
         var result = await unhandledExceptionBehaviour.Handle(command, requestHandlerDelegate, CancellationToken.None);
         result.Should().BeAssignableTo<CreateAuthorResponse>();
         command = null;
-        Assert.ThrowsAny<ArgumentException>( () => unhandledExceptionBehaviour.Handle(command, requestHandlerDelegate, CancellationToken.None).GetAwaiter().GetResult());
+        await Assert.ThrowsAnyAsync<ArgumentException>( () => unhandledExceptionBehaviour.Handle(command, requestHandlerDelegate, CancellationToken.None));
 
     }
 }

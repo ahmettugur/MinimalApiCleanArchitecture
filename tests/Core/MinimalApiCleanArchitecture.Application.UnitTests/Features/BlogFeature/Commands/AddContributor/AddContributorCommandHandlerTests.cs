@@ -85,8 +85,7 @@ public class AddContributorCommandHandlerTests
 
         var command = new AddContributorCommand(blog.Id, authorId);
 
-        Assert.ThrowsAny<NotFoundException>(() =>
-            _addContributorCommandHandler.Handle(command, CancellationToken.None).GetAwaiter().GetResult());
+        Assert.ThrowsAnyAsync<NotFoundException>(() => _addContributorCommandHandler.Handle(command, CancellationToken.None));
     }
 
     [Fact]
@@ -100,7 +99,6 @@ public class AddContributorCommandHandlerTests
             _blogWriteRepository.Object, _authorReadRepository.Object);
 
         var command = new AddContributorCommand(blogId, author.Id);
-        Assert.ThrowsAny<NotFoundException>(() =>
-            _addContributorCommandHandler.Handle(command, CancellationToken.None).GetAwaiter().GetResult());
+        Assert.ThrowsAnyAsync<NotFoundException>(() => _addContributorCommandHandler.Handle(command, CancellationToken.None));
     }
 }

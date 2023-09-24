@@ -56,15 +56,15 @@ public class GetAuthorByIdQueryHandlerTests
     }
 
     [Fact]
-    public void TestGetAuthorById_GetAuthorByIdShouldReturn_NotFoundException()
+    public async Task TestGetAuthorById_GetAuthorByIdShouldReturn_NotFoundException()
     {
         var authorId = Guid.NewGuid();
         _authorReadRepository.Setup(_ => _.GetByIdAsync(_author.Id, false)).ReturnsAsync(_author);
         
         _getAuthorByIdQueryHandler = new GetAuthorByIdQueryHandler(_authorReadRepository.Object, _mapper);
 
-        Action act = () => _getAuthorByIdQueryHandler.Handle(new GetAuthorByIdQuery(authorId), CancellationToken.None).GetAwaiter().GetResult();
+        Func<Task>  act = async () => await _getAuthorByIdQueryHandler.Handle(new GetAuthorByIdQuery(authorId), CancellationToken.None);
 
-        act.Should().Throw<NotFoundException>().WithMessage($"Author cannot found with id: {authorId}");
+       await act.Should().ThrowAsync<NotFoundException>().WithMessage($"Author cannot found with id: {authorId}");
     }
 }

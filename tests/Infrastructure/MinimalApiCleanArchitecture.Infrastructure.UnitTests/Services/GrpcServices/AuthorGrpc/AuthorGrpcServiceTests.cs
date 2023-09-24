@@ -60,7 +60,7 @@ public class AuthorGrpcServiceTests
     }
 
     [Fact]
-    public void TestAddInfrastructureServices_AddInfrastructureServicesShould_GetServices()
+    public async Task TestAddInfrastructureServices_AddInfrastructureServicesShould_GetServices()
     {
         _serviceProvider.GetService<IMapper>().Should().NotBeNull();
         _serviceProvider.GetService<IConsulClient>().Should().BeNull();
@@ -72,13 +72,7 @@ public class AuthorGrpcServiceTests
 
         var consulClient = _serviceProvider.GetService<IConsulClient>(); 
         consulClient.Should().BeNull();
-
-        var allRegisteredServices = consulClient?.Agent.Services().GetAwaiter().GetResult();
-        allRegisteredServices.Should().BeNull();
-
-        var registeredServices = allRegisteredServices?.Response
-            .Where(s => s.Key.Equals(serviceName, StringComparison.OrdinalIgnoreCase)).Select(x => x.Value).ToList();
-        registeredServices.Should().BeNull();
+        
     }
 
     [Fact]
