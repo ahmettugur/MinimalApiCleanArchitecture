@@ -18,6 +18,11 @@ public class Testing
     private static IServiceScopeFactory _scopeFactory = null!;
     private static Respawner _checkpoint = null!;
 
+    private Testing()
+    {
+        
+    }
+
     [OneTimeSetUp]
     public static void RunBeforeAnyTests()
     {
@@ -37,7 +42,7 @@ public class Testing
 
         var mediator = scope.ServiceProvider.GetRequiredService<ISender>();
 
-        return await mediator.Send(request);
+        return await mediator.Send(request!);
     }
     
     public static async Task ResetState()
