@@ -47,7 +47,7 @@ public class AuthorGrpcServiceTests
         _authorProtoModel = new AuthorProtoModel()
         {
             Id = Guid.NewGuid().ToString(), Name = "Jon Doe", Bio = "Developer",
-            DateOfBirth = Timestamp.FromDateTime(new DateTime(1990, 9, 1).ToUniversalTime())
+            DateOfBirth = Timestamp.FromDateTime(new DateTime(1990, 9, 1,0,0,0,DateTimeKind.Utc).ToUniversalTime())
         };
         var authors = new RepeatedField<AuthorProtoModel>() {_authorProtoModel};
         _authorsProtoResponse = new GetAllAuthorsProtoResponse() {Authors = {authors}};
@@ -60,7 +60,7 @@ public class AuthorGrpcServiceTests
     }
 
     [Fact]
-    public async Task TestAddInfrastructureServices_AddInfrastructureServicesShould_GetServices()
+    public void TestAddInfrastructureServices_AddInfrastructureServicesShould_GetServices()
     {
         _serviceProvider.GetService<IMapper>().Should().NotBeNull();
         _serviceProvider.GetService<IConsulClient>().Should().BeNull();
@@ -112,7 +112,7 @@ public class AuthorGrpcServiceTests
     [Fact]
     public async Task TestCreateAuthor_CreateAuthorShouldReturn_InsertedAuthor()
     {
-        var request = new CreateAuthorRequest("Jon", "Doe", "Developer", new DateTime(1990, 9, 1));
+        var request = new CreateAuthorRequest("Jon", "Doe", "Developer", new DateTime(1990, 9, 1,0,0,0,DateTimeKind.Utc));
 
         var protoRequest = _mapper.Map<CreateAuthorProtoRequest>(request);
 
@@ -129,7 +129,7 @@ public class AuthorGrpcServiceTests
     [Fact]
     public async Task TestUpdateAuthor_UpdateAuthorShouldReturn_UpdateStstusTrue()
     {
-        var request = new UpdateAuthorRequest(Guid.NewGuid(), "Jon", "Doe", "Developer", new DateTime(1990, 9, 1));
+        var request = new UpdateAuthorRequest(Guid.NewGuid(), "Jon", "Doe", "Developer", new DateTime(1990, 9, 1,0,0,0,DateTimeKind.Utc));
         var protoRequest = _mapper.Map<UpdateAuthorProtoRequest>(request);
 
         var mockCall = CallHelpers.CreateAsyncUnaryCall(_updateAuthorProtoResponse);
