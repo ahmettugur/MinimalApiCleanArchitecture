@@ -12,6 +12,6 @@ data:
   rabbitmq_config_exchange: "LoggerQueue"
   rabbitmq_config_exchange_type: "fanout"
   rabbitmq_config_port: "5672"
-  jaeger_host: "jaeger-all-in-one-service"
-  jaeger_port: "6831"
+  jaeger_host: "http://jaeger-all-in-one-service"
+  jaeger_port: "4317"
   consul_address: "http://consul-service:8500"

@@ -33,5 +33,5 @@ spec:
     - protocol: TCP
       port: 9411
       targetPort: 9411
-      nodePort: 32008
+      nodePort: 32013
   type: NodePort

@@ -1,4 +1,5 @@
-﻿using Common.OpenTelemetry.Settings;
+﻿using System.Diagnostics;
+using Common.OpenTelemetry.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenTelemetry.Resources;
@@ -23,7 +24,7 @@ public static class ServiceCollectionExtensions
                     .AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
                     .AddGrpcCoreInstrumentation()
-                    .AddSqlClientInstrumentation()
+                    //.AddSqlClientInstrumentation()
                     .AddSqlClientInstrumentation(opt =>
                     {
                         opt.SetDbStatementForText = true;
@@ -35,10 +36,9 @@ public static class ServiceCollectionExtensions
                 switch (exporter)
                 {
                     case "jaeger":
-                        tracerProviderBuilder.AddJaegerExporter(jaegerOptions =>
+                        tracerProviderBuilder.AddOtlpExporter(jaegerOptions =>
                         {
-                            jaegerOptions.AgentHost = jaegerSettings.Host;
-                            jaegerOptions.AgentPort = jaegerSettings.Port;
+                            jaegerOptions.Endpoint = new Uri($"{jaegerSettings.Host}:{jaegerSettings.Port}");
                         });
                         break;
                     case "zipkin":
@@ -52,7 +52,7 @@ public static class ServiceCollectionExtensions
                         break;
                 }
             });
-
+        
         return services;
     }
 }

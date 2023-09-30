@@ -15,7 +15,7 @@ spec:
         app: consul
     spec:
       containers:
-        - image: consul
+        - image: hashicorp/consul
           name: consul
           imagePullPolicy: IfNotPresent
           ports:
@@ -37,15 +37,15 @@ spec:
       protocol: TCP
       port: 8500
       targetPort: 8500
-      nodePort: 32009
-    - name: "8600" 
+      nodePort: 32010
+    - name: "8600"
       protocol: TCP
       port: 8600
       targetPort: 8600
-      nodePort: 32010
-    - name: "86002" 
+      nodePort: 32011
+    - name: "86002"
       protocol: UDP
       port: 8600
       targetPort: 8600
-      nodePort: 32011
+      nodePort: 32012
   type: NodePort

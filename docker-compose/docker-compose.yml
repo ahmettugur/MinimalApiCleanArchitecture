@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.9'
 
 services:
   minimal-api-clean-architecture-db:
@@ -43,13 +43,13 @@ services:
     image: "rabbitmq:3.11.11-management"
 
   jaeger:
-    image: jaegertracing/all-in-one
+    image: jaegertracing/all-in-one:latest
   
   zipkin-server:
     image: openzipkin/zipkin
 
   consul:
-    image: consul
+    image: hashicorp/consul
 
 networks:
   blogNetwork:

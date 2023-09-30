@@ -33,8 +33,10 @@ spec:
               protocol: TCP
             - containerPort: 14250
               protocol: TCP
-#            - containerPort: 9411
-#              protocol: TCP
+            - containerPort: 4317
+              protocol: TCP
+            - containerPort: 4318
+              protocol: TCP
           readinessProbe:
             httpGet:
               path: "/"
@@ -53,9 +55,19 @@ spec:
       port: 16686
       targetPort: 16686
       nodePort: 32006
-    - name: "6831" 
+    - name: "6831"
       protocol: UDP
       port: 6831
       targetPort: 6831
       nodePort: 32007
+    - name: "4317"
+      protocol: TCP
+      port: 4317
+      targetPort: 4317
+      nodePort: 32008
+    - name: "4318"
+      protocol: TCP
+      port: 4318
+      targetPort: 4318
+      nodePort: 32009
   type: NodePort

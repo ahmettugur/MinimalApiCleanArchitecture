@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 
 services:
   minimal-api-clean-architecture-db:
@@ -40,8 +40,8 @@ services:
       - "RabbitMqConfig:Exchange=LoggerQueue"
       - "RabbitMqConfig:ExchangeType=fanout"
       - "RabbitMqConfig:Port=5672"
-      - "JaegerSettings:Host=jaeger"
-      - "JaegerSettings:Port=6831"
+      - "JaegerSettings:Host=http://jaeger"
+      - "JaegerSettings:Port=4317"
       - "JaegerSettings:SourceName=Api"
       - "JaegerSettings:ServiceName=MinimalApiCleanArchitecture.MinimalApi"
       - "ExporterSettings:UseExporter=jaeger"
@@ -77,8 +77,8 @@ services:
       - "RabbitMqConfig:Exchange=LoggerQueue"
       - "RabbitMqConfig:ExchangeType=fanout"
       - "RabbitMqConfig:Port=5672"
-      - "JaegerSettings:Host=jaeger"
-      - "JaegerSettings:Port=6831"
+      - "JaegerSettings:Host=http://jaeger"
+      - "JaegerSettings:Port=4317"
       - "JaegerSettings:SourceName=Grpc"
       - "JaegerSettings:ServiceName=MinimalApiCleanArchitecture.GrpcService"
       - "ExporterSettings:UseExporter=jaeger"
@@ -163,10 +163,12 @@ services:
     container_name: jaeger
     environment:
       - SPAN_STORAGE_TYPE=badger
-      - BADGER_EPHEMERAL=false
+      - BADGER_EPHEMERAL=true
       - BADGER_DIRECTORY_VALUE=/badger/data
       - BADGER_DIRECTORY_KEY=/badger/key
     ports:
+      - 4317:4317
+      - 4318:4318
       - 5775:5775/udp
       - 6831:6831/udp
       - 6832:6832/udp
@@ -174,6 +176,7 @@ services:
       - 16686:16686
       - 14268:14268
       - 14250:14250
+      - 14269:14269
       #- 9411:9411
     volumes:
       - jaeger-data:/badger

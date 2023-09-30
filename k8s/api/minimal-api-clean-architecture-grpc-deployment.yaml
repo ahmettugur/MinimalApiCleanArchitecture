@@ -80,7 +80,7 @@ spec:
             - name: JaegerSettings__ServiceName
               value: "MinimalApiCleanArchitecture.GrpcService"
             - name: ExporterSettings__UseExporter
-              value: "zipkin"
+              value: "Jaeger"
             - name: Zipkin__Endpoint
               value: "http://zipkin-server-service:9411/api/v2/spans"
             - name: ConsulConfig__Address

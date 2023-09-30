@@ -68,10 +68,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api", "api", "{77CCAA6D-989
 	ProjectSection(SolutionItems) = preProject
 		k8s\api\db-connection-config-map.yaml = k8s\api\db-connection-config-map.yaml
 		k8s\api\db-connection-secret.yaml = k8s\api\db-connection-secret.yaml
-		k8s\api\thoughtful-api-configmap.yaml = k8s\api\thoughtful-api-configmap.yaml
-		k8s\api\thoughtful-api-deployment.yaml = k8s\api\thoughtful-api-deployment.yaml
-		k8s\api\thoughtful-grpc-deployment.yaml = k8s\api\thoughtful-grpc-deployment.yaml
-		k8s\api\thoughtful-log-consumer-deployment.yaml = k8s\api\thoughtful-log-consumer-deployment.yaml
+		k8s\api\minimal-api-clean-architecture-configmap.yaml = k8s\api\minimal-api-clean-architecture-configmap.yaml
+		k8s\api\minimal-api-clean-architecture-deployment.yaml = k8s\api\minimal-api-clean-architecture-deployment.yaml
+		k8s\api\minimal-api-clean-architecture-grpc-deployment.yaml = k8s\api\minimal-api-clean-architecture-grpc-deployment.yaml
+		k8s\api\minimal-api-clean-architecture-log-consumer-deployment.yaml = k8s\api\minimal-api-clean-architecture-log-consumer-deployment.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "consul", "consul", "{236E708B-4B56-4D9C-BBFB-F7700503B552}"
