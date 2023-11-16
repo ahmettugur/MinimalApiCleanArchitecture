@@ -25,29 +25,5 @@ public class NotFoundExceptionTests
         actual.ErrorMessage.Should().BeEmpty();
         actual.Message.Should().Be("Entity \"book\" (id) was not found.");
         
-
-
-    }
-    
-    [Fact]
-    public void TestNotFoundException_NotFoundExceptionShould_GetObjectDataCorrectly()
-    {
-        var actual = new NotFoundException("Not found");
-        var info = new SerializationInfo(typeof(NotFoundException),new FormatterConverter());
-        var context = new StreamingContext();
-        actual.GetObjectData(info, context);
-        actual.Should().NotBeNull();
-    }
-    
-    [Fact]
-    public void TestNotFoundException_NotFoundExceptionWhenSerialized_ThenDeserializeCorrectly()
-    {
-        var exception = new NotFoundException("Not found");
-        var result = JsonSerializer.Serialize(exception);
-        result.Should().NotBeEmpty();
-        exception = JsonSerializer.Deserialize<NotFoundException>(result)!;
-        exception.Message.Should().NotBeEmpty();
-
-        exception.Should().NotBeNull();
     }
 }

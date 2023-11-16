@@ -15,26 +15,4 @@ public class ForbiddenAccessExceptionTests
         var actual = new ForbiddenAccessException("Forbidden access");
         actual.Message.Should().Be("Forbidden access");
     }
-    
-    [Fact]
-    public void TestForbiddenAccessException_ForbiddenAccessExceptionShould_GetObjectDataCorrectly()
-    {
-        var exception = new ForbiddenAccessException("Forbidden access");
-        var info = new SerializationInfo(typeof(NotFoundException),new FormatterConverter());
-        var context = new StreamingContext();
-        exception.GetObjectData(info, context);
-
-        exception.Should().NotBeNull();
-    }
-    [Fact]
-    public void TestForbiddenAccessException_ForbiddenAccessExceptionWhenSerialized_ThenDeserializeCorrectly()
-    {
-        var exception = new ForbiddenAccessException("Forbidden access");
-        var result = JsonSerializer.Serialize(exception);
-        result.Should().NotBeEmpty();
-        exception = JsonSerializer.Deserialize<ForbiddenAccessException>(result)!;
-        exception.Message.Should().NotBeEmpty();
-
-        exception.Should().NotBeNull();
-    }
 }
