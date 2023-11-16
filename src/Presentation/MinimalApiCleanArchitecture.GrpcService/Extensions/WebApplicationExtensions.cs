@@ -30,8 +30,8 @@ public static class WebApplicationExtensions
     
         var registration = new AgentServiceRegistration()
         {
-            ID = serviceId ?? "ThoughtfulApi",
-            Name = serviceName ?? "ThoughtfulAApi",
+            ID = serviceId ?? "GrpcService",
+            Name = serviceName ?? "GrpcService",
             Address = $"{uri!.Host}",
             Port = uri.Port,
             Tags = new[] { serviceName, serviceId }

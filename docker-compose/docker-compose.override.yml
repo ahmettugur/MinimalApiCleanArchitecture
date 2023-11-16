@@ -1,8 +1,8 @@
 version: '3.9'
 
 services:
-  minimal-api-clean-architecture-db:
-    container_name: minimal-api-clean-architecture-db
+  clean-architecture-db:
+    container_name: clean-architecture-db
     environment:
       SA_PASSWORD: "Ahmet1990"
       ACCEPT_EULA: "Y"
@@ -24,11 +24,11 @@ services:
     networks:
       - blogNetwork
 
-  minimal-api-clean-architecture-minimal-api:
-    container_name: minimal-api-clean-architecture-minimal-api
+  clean-architecture-minimal-api:
+    container_name: clean-architecture-minimal-api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionStrings:Default=Server=minimal-api-clean-architecture-db, 1433;Database=MinimalApiCleanArchitecture;User Id=sa;Password=Ahmet1990;TrustServerCertificate=true;"
+      - "ConnectionStrings:Default=Server=clean-architecture-db, 1433;Database=MinimalApiCleanArchitecture;User Id=sa;Password=Ahmet1990;TrustServerCertificate=true;"
       - "AppSettings:ApplicationName=MinimalApiCleanArchitecture.MinimalApi"
       - "AppSettings:Instance=2"
       - "GrpcSettings:AuthorGrpcServiceUrl="
@@ -47,27 +47,27 @@ services:
       - "ExporterSettings:UseExporter=jaeger"
       - "Zipkin:Endpoint=http://zipkin-server:9411/api/v2/spans"
       - "ConsulConfig:Address=http://consul:8500"
-      - "ConsulConfig:ServiceAddress=http://minimal-api-clean-architecture-minimal-api"
+      - "ConsulConfig:ServiceAddress=http://clean-architecture-minimal-api"
       - "ConsulConfig:ServiceName=MinimalApiCleanArchitectureMinimalApi"
       - "ConsulConfig:ServiceId=MinimalApiCleanArchitectureMinimalApi"
     depends_on:
-      - minimal-api-clean-architecture-db
-      - minimal-api-clean-architecture-grpc-service
+      - clean-architecture-db
+      - clean-architecture-grpc-service
       - rabbitmq
       - jaeger
       - zipkin-server
       - consul
     ports:
-      - "8001:80"
+      - "8001:8080"
     restart: always
     networks:
       - blogNetwork
 
-  minimal-api-clean-architecture-grpc-service:
-    container_name: minimal-api-clean-architecture-grpc-service
+  clean-architecture-grpc-service:
+    container_name: clean-architecture-grpc-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionStrings:Default=Server=minimal-api-clean-architecture-db, 1433;Database=MinimalApiCleanArchitecture;User Id=sa;Password=Ahmet1990;TrustServerCertificate=true;"
+      - "ConnectionStrings:Default=Server=clean-architecture-db, 1433;Database=MinimalApiCleanArchitecture;User Id=sa;Password=Ahmet1990;TrustServerCertificate=true;"
       - "AppSettings:ApplicationName=MinimalApiCleanArchitecture.GrpcService"
       - "AppSettings:Instance=2"
       - "RabbitMqConfig:VHostname=/"
@@ -84,23 +84,23 @@ services:
       - "ExporterSettings:UseExporter=jaeger"
       - "Zipkin:Endpoint=http://zipkin-server:9411/api/v2/spans"
       - "ConsulConfig:Address=http://consul:8500"
-      - "ConsulConfig:ServiceAddress=http://minimal-api-clean-architecture-grpc-service"
+      - "ConsulConfig:ServiceAddress=http://clean-architecture-grpc-service:8080"
       - "ConsulConfig:ServiceName=MinimalApiCleanArchitectureGrpcService"
       - "ConsulConfig:ServiceId=MinimalApiCleanArchitectureGrpcService"
     depends_on:
-      - minimal-api-clean-architecture-db
+      - clean-architecture-db
       - rabbitmq
       - jaeger
       - zipkin-server
       - consul
     ports:
-      - "8002:80"
+      - "8002:8080"
     restart: always
     networks:
       - blogNetwork
 
-  minimal-api-clean-architecture-log-consumer:
-    container_name: minimal-api-clean-architecture-log-consumer
+  clean-architecture-log-consumer:
+    container_name: clean-architecture-log-consumer
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ElasticSearchConfig:ConnectionString=http://elasticsearch:9200"

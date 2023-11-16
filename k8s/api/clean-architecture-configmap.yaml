@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: minimal-api-clean-architecture-configmap
+  name: clean-architecture-configmap
 data:
   minimal_api_clean_architecture_grpc_url: ""
   minimal_api_clean_architecture_grpc_consul_name: "MinimalApiCleanArchitectureGrpcService"

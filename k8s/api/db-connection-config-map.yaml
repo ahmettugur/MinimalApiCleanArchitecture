@@ -3,6 +3,6 @@ kind: ConfigMap
 metadata:
   name: mssql-connection-configmap
   labels:
-    app: minimal-api-clean-architecture
+    app: clean-architecture
 data:
   db-connection-string: Server=mssql-service;Database=MinimalApiCleanArchitecture;User=sa;Password=Ahmet1990;TrustServerCertificate=true;

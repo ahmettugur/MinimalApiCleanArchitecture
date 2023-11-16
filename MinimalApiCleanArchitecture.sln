@@ -67,11 +67,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api", "api", "{77CCAA6D-989B-4093-8129-2176479B2578}"
 	ProjectSection(SolutionItems) = preProject
 		k8s\api\db-connection-config-map.yaml = k8s\api\db-connection-config-map.yaml
+		k8s\api\clean-architecture-log-consumer-deployment.yaml = k8s\api\clean-architecture-log-consumer-deployment.yaml
+		k8s\api\clean-architecture-grpc-deployment.yaml = k8s\api\clean-architecture-grpc-deployment.yaml
+		k8s\api\clean-architecture-deployment.yaml = k8s\api\clean-architecture-deployment.yaml
+		k8s\api\clean-architecture-configmap.yaml = k8s\api\clean-architecture-configmap.yaml
 		k8s\api\db-connection-secret.yaml = k8s\api\db-connection-secret.yaml
-		k8s\api\minimal-api-clean-architecture-configmap.yaml = k8s\api\minimal-api-clean-architecture-configmap.yaml
-		k8s\api\minimal-api-clean-architecture-deployment.yaml = k8s\api\minimal-api-clean-architecture-deployment.yaml
-		k8s\api\minimal-api-clean-architecture-grpc-deployment.yaml = k8s\api\minimal-api-clean-architecture-grpc-deployment.yaml
-		k8s\api\minimal-api-clean-architecture-log-consumer-deployment.yaml = k8s\api\minimal-api-clean-architecture-log-consumer-deployment.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "consul", "consul", "{236E708B-4B56-4D9C-BBFB-F7700503B552}"
@@ -119,9 +119,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "github", "github", "{C8B5F4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{C69495A6-F076-4ECB-A467-DB96146EDDBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalApiCleanArchitecture.Infrastructure.UnitTests", "tests\Infrastructure\MinimalApiCleanArchitecture.Infrastructure.UnitTests\MinimalApiCleanArchitecture.Infrastructure.UnitTests.csproj", "{8BF68EC4-EFC9-47CD-A8C3-3B8027207F3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalApiCleanArchitecture.Infrastructure.UnitTests", "tests\Infrastructure\MinimalApiCleanArchitecture.Infrastructure.UnitTests\MinimalApiCleanArchitecture.Infrastructure.UnitTests.csproj", "{8BF68EC4-EFC9-47CD-A8C3-3B8027207F3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalApiCleanArchitecture.Persistence.UnitTest", "tests\Infrastructure\MinimalApiCleanArchitecture.Persistence.UnitTest\MinimalApiCleanArchitecture.Persistence.UnitTest.csproj", "{296B98C9-03C4-4ED2-9734-C589ADBB8C87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalApiCleanArchitecture.Persistence.UnitTest", "tests\Infrastructure\MinimalApiCleanArchitecture.Persistence.UnitTest\MinimalApiCleanArchitecture.Persistence.UnitTest.csproj", "{296B98C9-03C4-4ED2-9734-C589ADBB8C87}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

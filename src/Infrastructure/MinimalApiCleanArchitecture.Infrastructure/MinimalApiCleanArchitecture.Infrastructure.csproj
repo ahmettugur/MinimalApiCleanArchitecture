@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Consul" Version="1.6.10.9" />
-        <PackageReference Include="Grpc.AspNetCore" Version="2.57.0" />
+        <PackageReference Include="Consul" Version="1.7.14.1" />
+        <PackageReference Include="Grpc.AspNetCore" Version="2.59.0" />
     </ItemGroup>
     <ItemGroup>
         <Protobuf Include="Protos\author.proto" GrpcServices="Client" />

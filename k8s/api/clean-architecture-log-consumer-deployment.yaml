@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: minimal-api-clean-architecture-log-consumer-deployment
+  name: clean-architecture-log-consumer-deployment
   labels:
-    app: minimal-api-clean-architecture-log-consumer
+    app: clean-architecture-log-consumer
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: minimal-api-clean-architecture-log-consumer
+      app: clean-architecture-log-consumer
   template:
     metadata:
       labels:
-        app: minimal-api-clean-architecture-log-consumer
+        app: clean-architecture-log-consumer
     spec:
       containers:
-        - name: thoughtful-minimal-log-consume
-          image: ahmettugur/minimal-api-clean-architecture-log-consumer
+        - name: clean-architecture-log-consumer
+          image: ahmettugur/clean-architecture-log-consumer
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 80
+            - containerPort: 8080
           env:
             - name: ElasticSearchConfig__ConnectionString
               value: http://elasticsearch-service:9200
@@ -28,37 +28,37 @@ spec:
             - name: RabbitMqConfig__VHostname
               valueFrom:
                 configMapKeyRef:
-                  name: minimal-api-clean-architecture-configmap
+                  name: clean-architecture-configmap
                   key: rabbitmq_config_vhostname
             - name: RabbitMqConfig__Hostname
               valueFrom:
                 configMapKeyRef:
-                  name: minimal-api-clean-architecture-configmap
+                  name: clean-architecture-configmap
                   key: rabbitmq_config_hostname
             - name: RabbitMqConfig__Username
               valueFrom:
                 configMapKeyRef:
-                  name: minimal-api-clean-architecture-configmap
+                  name: clean-architecture-configmap
                   key: rabbitmq_config_username
             - name: RabbitMqConfig__Password
               valueFrom:
                 configMapKeyRef:
-                  name: minimal-api-clean-architecture-configmap
+                  name: clean-architecture-configmap
                   key: rabbitmq_config_password
             - name: RabbitMqConfig__Port
               valueFrom:
                 configMapKeyRef:
-                  name: minimal-api-clean-architecture-configmap
+                  name: clean-architecture-configmap
                   key: rabbitmq_config_port
             - name: RabbitMqConfig__Exchange
               valueFrom:
                 configMapKeyRef:
-                  name: minimal-api-clean-architecture-configmap
+                  name: clean-architecture-configmap
                   key: rabbitmq_config_exchange
             - name: RabbitMqConfig__ExchangeType
               valueFrom:
                 configMapKeyRef:
-                  name: minimal-api-clean-architecture-configmap
+                  name: clean-architecture-configmap
                   key: rabbitmq_config_exchange_type
           resources:
             requests:
@@ -71,13 +71,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: minimal-api-clean-architecture-log-consumer-service
+  name: clean-architecture-log-consumer-service
 spec:
   selector:
-    app: minimal-api-clean-architecture-log-consumer
+    app: clean-architecture-log-consumer
   ports:
     - protocol: TCP
-      port: 8001
-      targetPort: 80
+      port: 8003
+      targetPort: 8080
       nodePort: 31002
   type: NodePort
