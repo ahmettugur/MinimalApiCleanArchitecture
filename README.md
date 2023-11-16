@@ -19,7 +19,7 @@ Docker Container and k8s deployment
 ```bash
 Docker
 Minikube
-Asp.Net 7
+Asp.Net 8
 Visual Studio 2022 or Rider or Visual Studio Code
 
 ```
@@ -29,7 +29,7 @@ Visual Studio 2022 or Rider or Visual Studio Code
 ```bash
 Docker
 Minikube
-Asp.Net 7
+Asp.Net 8
 Minimal Api
 ApNet Core Grpc Service
 Sql Server
