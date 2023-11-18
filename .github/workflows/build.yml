@@ -48,6 +48,6 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"ahmettugur_MinimalApiCleanArchitecture"" /o:"ahmettugur" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=tests/codecoverage/coverage.xml
-          dotnet build
-          dotnet-coverage collect "dotnet test dotnet test ./MinimalApiCleanArchitecture.sln --no-build " -f xml -o "tests/codecoverage/coverage.xml"
+          dotnet build ./MinimalApiCleanArchitecture.sln --no-restore
+          dotnet-coverage collect "dotnet test ./MinimalApiCleanArchitecture.sln --no-build " -f xml -o "tests/codecoverage/coverage.xml"
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
