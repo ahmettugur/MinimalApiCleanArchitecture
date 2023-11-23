@@ -1,5 +1,5 @@
 # MinimalApiCleanArchitecture
-MinimalApiCleanArchitecture .NET 7 Minimal Api and Grpc Service With Onion Architecture <br>Centralized Logging (Serilog, RabbitMQ, Elasticsearch and Kibana)<br>
+MinimalApiCleanArchitecture .NET 8 Minimal Api and Grpc Service With Onion Architecture <br>Centralized Logging (Serilog, RabbitMQ, Elasticsearch and Kibana)<br>
 Distributed tracing (Jaeger and Zipkin) <br>
 Docker Container and k8s deployment
 
