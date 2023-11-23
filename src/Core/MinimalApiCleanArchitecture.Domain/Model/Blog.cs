@@ -31,13 +31,12 @@ public class Blog: BaseEntity
         Name = name;
         Description = description;
         AuthorId = authorId;
-
     }
 
     public void AddContributor(Author author)
     {
         Contributors ??= new List<Author>();
-        if (!(Contributors.Any(_ => _.Id == author.Id)))
+        if (!(Contributors.Any(x => x.Id == author.Id)))
             Contributors.Add(author);
     }
 
@@ -48,7 +47,6 @@ public class Blog: BaseEntity
 
     public void SetOwner(Author author)
     {
-
         Owner = author;
     }
 }
