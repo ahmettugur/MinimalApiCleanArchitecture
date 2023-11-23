@@ -12,34 +12,23 @@ namespace MinimalApiCleanArchitecture.Application.UnitTests.Features.BlogFeature
 
 public class AddContributorCommandHandlerTests
 {
-    private readonly Mock<IBlogWriteRepository> _blogWriteRepository;
-    private readonly Mock<IBlogReadRepository> _blogReadRepository;
-    private readonly Mock<IAuthorReadRepository> _authorReadRepository;
+    private readonly Mock<IBlogWriteRepository> _blogWriteRepository = new();
+    private readonly Mock<IBlogReadRepository> _blogReadRepository = new();
+    private readonly Mock<IAuthorReadRepository> _authorReadRepository = new();
     private AddContributorCommandHandler? _addContributorCommandHandler;
     
-    private readonly List<Author> _authors;
-    private readonly List<Blog> _blogs;
-
-    public AddContributorCommandHandlerTests()
+    private readonly List<Author> _authors = new()
     {
-        _blogWriteRepository = new Mock<IBlogWriteRepository>();
-        _blogReadRepository = new Mock<IBlogReadRepository>();
-        _authorReadRepository = new Mock<IAuthorReadRepository>();
-        
-
-        _authors = new List<Author>
+        new()
         {
-            new()
-            {
-                Id = Guid.NewGuid(), FirstName = "Jon", LastName = "Doe", Bio = "Developer",
-                DateOfBirth = new DateTime(1990, 9, 1)
-            }
-        };
-        _blogs = new List<Blog>
-        {
-            Blog.CreateBlog("C#", "C# Example", Guid.NewGuid())
-        };
-    }
+            Id = Guid.NewGuid(), FirstName = "Jon", LastName = "Doe", Bio = "Developer",
+            DateOfBirth = new DateTime(1990, 9, 1,0,0,0,DateTimeKind.Utc)
+        }
+    };
+    private readonly List<Blog> _blogs = new()
+    {
+        Blog.CreateBlog("C#", "C# Example", Guid.NewGuid())
+    };
 
     [Fact]
     public async Task TestAddContributor_AddContributorShouldReturn_SuccessDataResult()
@@ -69,11 +58,11 @@ public class AddContributorCommandHandlerTests
         blog.Contributors!.ToList()[0].LastName.Should().Be("Doe");
         blog.Contributors!.ToList()[0].FullName.Should().Be("Jon Doe");
         blog.Contributors!.ToList()[0].Bio.Should().Be("Developer");
-        blog.Contributors!.ToList()[0].DateOfBirth.Should().Be(new DateTime(1990, 9, 1));
+        blog.Contributors!.ToList()[0].DateOfBirth.Should().Be(new DateTime(1990, 9, 1,0,0,0,DateTimeKind.Utc));
     }
 
     [Fact]
-    public void TestAddContributor_AddContributorNoneExistentAuthorShouldReturn_ThrowNotfoundException()
+    public async Task TestAddContributor_AddContributorNoneExistentAuthorShouldReturn_ThrowNotfoundException()
     {
         var blog = _blogs[0];
         blog.Id = Guid.NewGuid();
@@ -85,11 +74,11 @@ public class AddContributorCommandHandlerTests
 
         var command = new AddContributorCommand(blog.Id, authorId);
 
-        Assert.ThrowsAnyAsync<NotFoundException>(() => _addContributorCommandHandler.Handle(command, CancellationToken.None));
+        await Assert.ThrowsAnyAsync<NotFoundException>(() => _addContributorCommandHandler.Handle(command, CancellationToken.None));
     }
 
     [Fact]
-    public void TestAddContributor_AddContributorNoneExistentBlogShouldReturn_ThrowNotfoundException()
+    public async Task TestAddContributor_AddContributorNoneExistentBlogShouldReturn_ThrowNotfoundException()
     {
         var author = _authors[0];
         var blogId = Guid.NewGuid();
@@ -99,6 +88,6 @@ public class AddContributorCommandHandlerTests
             _blogWriteRepository.Object, _authorReadRepository.Object);
 
         var command = new AddContributorCommand(blogId, author.Id);
-        Assert.ThrowsAnyAsync<NotFoundException>(() => _addContributorCommandHandler.Handle(command, CancellationToken.None));
+        await Assert.ThrowsAnyAsync<NotFoundException>(() => _addContributorCommandHandler.Handle(command, CancellationToken.None));
     }
 }

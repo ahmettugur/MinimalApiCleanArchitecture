@@ -39,7 +39,7 @@ public class UpdateAuthorCommandHandlerTest
         {
             new()
             {
-                Id  = Guid.NewGuid() ,FirstName = "Jon",LastName = "Doe",Bio = "Developer",DateOfBirth = new DateTime(1990,9,1)
+                Id  = Guid.NewGuid() ,FirstName = "Jon",LastName = "Doe",Bio = "Developer",DateOfBirth = new DateTime(1990, 9, 1,0,0,0,DateTimeKind.Utc)
             }
         };
     }
@@ -68,7 +68,7 @@ public class UpdateAuthorCommandHandlerTest
     }
     
     [Fact]
-    public void TestUpdateAuthor_UpdateAuthorWithInvalidValidCommandShouldReturn_ValidationException()
+    public async Task TestUpdateAuthor_UpdateAuthorWithInvalidValidCommandShouldReturn_ValidationException()
     {
         var author = _authors[0];
 
@@ -86,13 +86,12 @@ public class UpdateAuthorCommandHandlerTest
         
         var requestHandlerDelegateResult = new RequestHandlerDelegate<UpdateAuthorResponse>(requestHandlerDelegate);
         
-        Assert.ThrowsAnyAsync<ValidationException>( () => validationBehaviour.Handle(command, requestHandlerDelegateResult, CancellationToken.None));
-
+        await Assert.ThrowsAnyAsync<ValidationException>( () => validationBehaviour.Handle(command, requestHandlerDelegateResult, CancellationToken.None));
 
     }
     
     [Fact]
-    public void TestUpdateAuthor_UpdateAuthorWithInvalidAuthorShouldReturn_NotFoundException()
+    public async Task TestUpdateAuthor_UpdateAuthorWithInvalidAuthorShouldReturn_NotFoundException()
     {
         var author = _authors[0];
 
@@ -102,6 +101,6 @@ public class UpdateAuthorCommandHandlerTest
         
         _updateAuthorCommandHandler = new UpdateAuthorCommandHandler(_authorWriteRepository.Object,_authorReadRepository.Object);
         
-        Assert.ThrowsAnyAsync<NotFoundException>( () => _updateAuthorCommandHandler.Handle(command, CancellationToken.None));
+        await Assert.ThrowsAnyAsync<NotFoundException>( () => _updateAuthorCommandHandler.Handle(command, CancellationToken.None));
     }
 }
