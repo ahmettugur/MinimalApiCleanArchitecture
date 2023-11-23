@@ -5,17 +5,16 @@ USER app
 WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/Consumers/MinimalApiCleanArchitecture.LogConsumer/MinimalApiCleanArchitecture.LogConsumer.csproj", "src/Consumers/MinimalApiCleanArchitecture.LogConsumer/"]
 RUN dotnet restore "./src/Consumers/MinimalApiCleanArchitecture.LogConsumer/./MinimalApiCleanArchitecture.LogConsumer.csproj"
 COPY . .
 WORKDIR "/src/src/Consumers/MinimalApiCleanArchitecture.LogConsumer"
-RUN dotnet build "./MinimalApiCleanArchitecture.LogConsumer.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./MinimalApiCleanArchitecture.LogConsumer.csproj" -c Release -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./MinimalApiCleanArchitecture.LogConsumer.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./MinimalApiCleanArchitecture.LogConsumer.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

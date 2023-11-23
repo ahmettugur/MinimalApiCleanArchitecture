@@ -7,7 +7,6 @@ EXPOSE 8080
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/Presentation/MinimalApiCleanArchitecture.GrpcService/MinimalApiCleanArchitecture.GrpcService.csproj", "src/Presentation/MinimalApiCleanArchitecture.GrpcService/"]
 COPY ["src/BuildingBlocks/Common.Logging/Common.Logging.csproj", "src/BuildingBlocks/Common.Logging/"]
@@ -18,11 +17,11 @@ COPY ["src/Core/MinimalApiCleanArchitecture.Domain/MinimalApiCleanArchitecture.D
 RUN dotnet restore "./src/Presentation/MinimalApiCleanArchitecture.GrpcService/./MinimalApiCleanArchitecture.GrpcService.csproj"
 COPY . .
 WORKDIR "/src/src/Presentation/MinimalApiCleanArchitecture.GrpcService"
-RUN dotnet build "./MinimalApiCleanArchitecture.GrpcService.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./MinimalApiCleanArchitecture.GrpcService.csproj" -c Release -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./MinimalApiCleanArchitecture.GrpcService.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./MinimalApiCleanArchitecture.GrpcService.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
