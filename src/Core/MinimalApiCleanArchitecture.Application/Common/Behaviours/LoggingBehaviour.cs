@@ -17,7 +17,7 @@ public class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest> where T
     {
         var requestName = typeof(TRequest).Name;
 
-        _logger.LogInformation("CleanArchitecture Request: {Name}  {@Request}", requestName, request);
+        _logger.LogInformation("Minimal Api CleanArchitecture Request: {Name}  {@Request}", requestName, request);
 
         await Task.CompletedTask;
     }
