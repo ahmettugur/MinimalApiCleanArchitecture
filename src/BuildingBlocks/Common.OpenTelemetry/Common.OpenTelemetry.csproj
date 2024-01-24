@@ -5,18 +5,21 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
-
     <ItemGroup>
-        <PackageReference Include="OpenTelemetry" Version="1.6.0" />
-        <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.6.0" />
-        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.6.0" />
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="3.0.0" />
+        <PackageReference Include="OpenTelemetry" Version="1.7.0" />
+        <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.7.0" />
+        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.7.0" />
         <PackageReference Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" Version="1.6.0-rc.1" />
-        <PackageReference Include="OpenTelemetry.Exporter.Zipkin" Version="1.6.0" />
-        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.6.0" />
-        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.6.0-beta.2" />
+        <PackageReference Include="OpenTelemetry.Exporter.Zipkin" Version="1.7.0" />
+        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.7.0" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.7.0" />
         <PackageReference Include="OpenTelemetry.Instrumentation.GrpcCore" Version="1.0.0-beta.5" />
         <PackageReference Include="OpenTelemetry.Instrumentation.GrpcNetClient" Version="1.6.0-beta.2" />
-        <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.6.0-beta.2" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.7.0" />
         <PackageReference Include="OpenTelemetry.Instrumentation.SqlClient" Version="1.6.0-beta.2" />
     </ItemGroup>
 

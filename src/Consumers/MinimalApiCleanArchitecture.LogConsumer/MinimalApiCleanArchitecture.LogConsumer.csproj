@@ -21,12 +21,12 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.1" />
         <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
-        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
         <PackageReference Include="NEST" Version="7.17.5" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-        <PackageReference Include="RabbitMQ.Client" Version="6.7.0" />
+        <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
     </ItemGroup>
 
     <ItemGroup>

@@ -15,19 +15,19 @@
 
     <ItemGroup>
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-        <PackageReference Include="Consul" Version="1.7.14.1" />
+        <PackageReference Include="Consul" Version="1.7.14.2" />
         <PackageReference Include="MediatR" Version="12.2.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
         <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="6.5.0" />
-        <PackageReference Include="Grpc.AspNetCore" Version="2.59.0" />
+        <PackageReference Include="Grpc.AspNetCore" Version="2.60.0" />
 
     </ItemGroup>
 

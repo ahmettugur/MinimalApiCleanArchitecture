@@ -18,9 +18,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Consul" Version="1.7.14.1" />
-        <PackageReference Include="Grpc.AspNetCore" Version="2.59.0" />
-        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
+        <PackageReference Include="Consul" Version="1.7.14.2" />
+        <PackageReference Include="Grpc.AspNetCore" Version="2.60.0" />
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 

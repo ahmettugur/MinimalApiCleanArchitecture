@@ -1,4 +1,5 @@
-﻿using Consul;
+﻿using Common.OpenTelemetry.Middlewares;
+using Consul;
 using Microsoft.EntityFrameworkCore;
 using MinimalApiCleanArchitecture.GrpcService.Services;
 using MinimalApiCleanArchitecture.Persistence;
@@ -9,6 +10,7 @@ public static class WebApplicationExtensions
 {
     public static WebApplication ConfigureApplication(this WebApplication app)
     {
+        app.UseMiddleware<OpenTelemetryTraceIdMiddleware>();
         app.MapGrpcService<AuthorService>();
         app.MapGet("/",
             () =>

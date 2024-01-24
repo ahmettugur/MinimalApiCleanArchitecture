@@ -1,4 +1,5 @@
-﻿using Consul;
+﻿using Common.OpenTelemetry.Middlewares;
+using Consul;
 using MinimalApiCleanArchitecture.Persistence;
 
 namespace MinimalApiCleanArchitecture.MinimalApi.Extensions;
@@ -10,7 +11,8 @@ public static class WebApplicationExtensions
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseHttpsRedirection();
-
+    app.UseMiddleware<OpenTelemetryTraceIdMiddleware>();
+    app.UseMiddleware<RequestAndResponseActivityMiddleware>();
     //Db Migration
     MigrateDatabase(app);
     app.RegisterWithConsul();
