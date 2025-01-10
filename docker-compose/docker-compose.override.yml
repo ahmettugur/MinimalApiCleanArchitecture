@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   clean-architecture-db:
     container_name: clean-architecture-db
@@ -24,100 +22,100 @@ services:
     networks:
       - blogNetwork
 
-  clean-architecture-minimal-api:
-    container_name: clean-architecture-minimal-api
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionStrings:Default=Server=clean-architecture-db, 1433;Database=MinimalApiCleanArchitecture;User Id=sa;Password=Ahmet1990;TrustServerCertificate=true;"
-      - "AppSettings:ApplicationName=MinimalApiCleanArchitecture.MinimalApi"
-      - "AppSettings:Instance=2"
-      - "GrpcSettings:AuthorGrpcServiceUrl="
-      - "GrpcSettings:AuthorGrpcServiceConsulName=MinimalApiCleanArchitectureGrpcService"
-      - "RabbitMqConfig:VHostname=/"
-      - "RabbitMqConfig:Hostname=rabbitmq"
-      - "RabbitMqConfig:Username=rabbitmq"
-      - "RabbitMqConfig:Password=rabbitmq"
-      - "RabbitMqConfig:Exchange=LoggerQueue"
-      - "RabbitMqConfig:ExchangeType=fanout"
-      - "RabbitMqConfig:Port=5672"
-      - "JaegerSettings:Host=http://jaeger"
-      - "JaegerSettings:Port=4317"
-      - "JaegerSettings:SourceName=Api"
-      - "JaegerSettings:ServiceName=MinimalApiCleanArchitecture.MinimalApi"
-      - "ExporterSettings:UseExporter=jaeger"
-      - "Zipkin:Endpoint=http://zipkin-server:9411/api/v2/spans"
-      - "ConsulConfig:Address=http://consul:8500"
-      - "ConsulConfig:ServiceAddress=http://clean-architecture-minimal-api"
-      - "ConsulConfig:ServiceName=MinimalApiCleanArchitectureMinimalApi"
-      - "ConsulConfig:ServiceId=MinimalApiCleanArchitectureMinimalApi"
-    depends_on:
-      - clean-architecture-db
-      - clean-architecture-grpc-service
-      - rabbitmq
-      - jaeger
-      - zipkin-server
-      - consul
-    ports:
-      - "8001:8080"
-    restart: always
-    networks:
-      - blogNetwork
-
-  clean-architecture-grpc-service:
-    container_name: clean-architecture-grpc-service
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionStrings:Default=Server=clean-architecture-db, 1433;Database=MinimalApiCleanArchitecture;User Id=sa;Password=Ahmet1990;TrustServerCertificate=true;"
-      - "AppSettings:ApplicationName=MinimalApiCleanArchitecture.GrpcService"
-      - "AppSettings:Instance=2"
-      - "RabbitMqConfig:VHostname=/"
-      - "RabbitMqConfig:Hostname=rabbitmq"
-      - "RabbitMqConfig:Username=rabbitmq"
-      - "RabbitMqConfig:Password=rabbitmq"
-      - "RabbitMqConfig:Exchange=LoggerQueue"
-      - "RabbitMqConfig:ExchangeType=fanout"
-      - "RabbitMqConfig:Port=5672"
-      - "JaegerSettings:Host=http://jaeger"
-      - "JaegerSettings:Port=4317"
-      - "JaegerSettings:SourceName=Grpc"
-      - "JaegerSettings:ServiceName=MinimalApiCleanArchitecture.GrpcService"
-      - "ExporterSettings:UseExporter=jaeger"
-      - "Zipkin:Endpoint=http://zipkin-server:9411/api/v2/spans"
-      - "ConsulConfig:Address=http://consul:8500"
-      - "ConsulConfig:ServiceAddress=http://clean-architecture-grpc-service:8080"
-      - "ConsulConfig:ServiceName=MinimalApiCleanArchitectureGrpcService"
-      - "ConsulConfig:ServiceId=MinimalApiCleanArchitectureGrpcService"
-    depends_on:
-      - clean-architecture-db
-      - rabbitmq
-      - jaeger
-      - zipkin-server
-      - consul
-    ports:
-      - "8002:8080"
-    restart: always
-    networks:
-      - blogNetwork
-
-  clean-architecture-log-consumer:
-    container_name: clean-architecture-log-consumer
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - "ElasticSearchConfig:ConnectionString=http://elasticsearch:9200"
-      - "ElasticSearchConfig:PingTimeMilliSeconds=10000"
-      - "RabbitMqConfig:Hostname=rabbitmq"
-      - "RabbitMqConfig:VHostname=/"
-      - "RabbitMqConfig:Username=rabbitmq"
-      - "RabbitMqConfig:Password=rabbitmq"
-      - "RabbitMqConfig:Exchange=LoggerQueue"
-      - "RabbitMqConfig:ExchangeType=fanout"
-      - "RabbitMqConfig:Port=5672"
-    depends_on:
-      - rabbitmq
-      - elasticsearch
-    restart: always
-    networks:
-      - blogNetwork
+#  clean-architecture-minimal-api:
+#    container_name: clean-architecture-minimal-api
+#    environment:
+#      - ASPNETCORE_ENVIRONMENT=Development
+#      - "ConnectionStrings:Default=Server=clean-architecture-db, 1433;Database=MinimalApiCleanArchitecture;User Id=sa;Password=Ahmet1990;TrustServerCertificate=true;"
+#      - "AppSettings:ApplicationName=MinimalApiCleanArchitecture.MinimalApi"
+#      - "AppSettings:Instance=2"
+#      - "GrpcSettings:AuthorGrpcServiceUrl="
+#      - "GrpcSettings:AuthorGrpcServiceConsulName=MinimalApiCleanArchitectureGrpcService"
+#      - "RabbitMqConfig:VHostname=/"
+#      - "RabbitMqConfig:Hostname=rabbitmq"
+#      - "RabbitMqConfig:Username=rabbitmq"
+#      - "RabbitMqConfig:Password=rabbitmq"
+#      - "RabbitMqConfig:Exchange=LoggerQueue"
+#      - "RabbitMqConfig:ExchangeType=fanout"
+#      - "RabbitMqConfig:Port=5672"
+#      - "JaegerSettings:Host=http://jaeger"
+#      - "JaegerSettings:Port=4317"
+#      - "JaegerSettings:SourceName=Api"
+#      - "JaegerSettings:ServiceName=MinimalApiCleanArchitecture.MinimalApi"
+#      - "ExporterSettings:UseExporter=jaeger"
+#      - "Zipkin:Endpoint=http://zipkin-server:9411/api/v2/spans"
+#      - "ConsulConfig:Address=http://consul:8500"
+#      - "ConsulConfig:ServiceAddress=http://clean-architecture-minimal-api"
+#      - "ConsulConfig:ServiceName=MinimalApiCleanArchitectureMinimalApi"
+#      - "ConsulConfig:ServiceId=MinimalApiCleanArchitectureMinimalApi"
+#    depends_on:
+#      - clean-architecture-db
+#      - clean-architecture-grpc-service
+#      - rabbitmq
+#      - jaeger
+#      - zipkin-server
+#      - consul
+#    ports:
+#      - "8001:8080"
+#    restart: always
+#    networks:
+#      - blogNetwork
+#
+#  clean-architecture-grpc-service:
+#    container_name: clean-architecture-grpc-service
+#    environment:
+#      - ASPNETCORE_ENVIRONMENT=Development
+#      - "ConnectionStrings:Default=Server=clean-architecture-db, 1433;Database=MinimalApiCleanArchitecture;User Id=sa;Password=Ahmet1990;TrustServerCertificate=true;"
+#      - "AppSettings:ApplicationName=MinimalApiCleanArchitecture.GrpcService"
+#      - "AppSettings:Instance=2"
+#      - "RabbitMqConfig:VHostname=/"
+#      - "RabbitMqConfig:Hostname=rabbitmq"
+#      - "RabbitMqConfig:Username=rabbitmq"
+#      - "RabbitMqConfig:Password=rabbitmq"
+#      - "RabbitMqConfig:Exchange=LoggerQueue"
+#      - "RabbitMqConfig:ExchangeType=fanout"
+#      - "RabbitMqConfig:Port=5672"
+#      - "JaegerSettings:Host=http://jaeger"
+#      - "JaegerSettings:Port=4317"
+#      - "JaegerSettings:SourceName=Grpc"
+#      - "JaegerSettings:ServiceName=MinimalApiCleanArchitecture.GrpcService"
+#      - "ExporterSettings:UseExporter=jaeger"
+#      - "Zipkin:Endpoint=http://zipkin-server:9411/api/v2/spans"
+#      - "ConsulConfig:Address=http://consul:8500"
+#      - "ConsulConfig:ServiceAddress=http://clean-architecture-grpc-service:8080"
+#      - "ConsulConfig:ServiceName=MinimalApiCleanArchitectureGrpcService"
+#      - "ConsulConfig:ServiceId=MinimalApiCleanArchitectureGrpcService"
+#    depends_on:
+#      - clean-architecture-db
+#      - rabbitmq
+#      - jaeger
+#      - zipkin-server
+#      - consul
+#    ports:
+#      - "8002:8080"
+#    restart: always
+#    networks:
+#      - blogNetwork
+#
+#  clean-architecture-log-consumer:
+#    container_name: clean-architecture-log-consumer
+#    environment:
+#      - ASPNETCORE_ENVIRONMENT=Development
+#      - "ElasticSearchConfig:ConnectionString=http://elasticsearch:9200"
+#      - "ElasticSearchConfig:PingTimeMilliSeconds=10000"
+#      - "RabbitMqConfig:Hostname=rabbitmq"
+#      - "RabbitMqConfig:VHostname=/"
+#      - "RabbitMqConfig:Username=rabbitmq"
+#      - "RabbitMqConfig:Password=rabbitmq"
+#      - "RabbitMqConfig:Exchange=LoggerQueue"
+#      - "RabbitMqConfig:ExchangeType=fanout"
+#      - "RabbitMqConfig:Port=5672"
+#    depends_on:
+#      - rabbitmq
+#      - elasticsearch
+#    restart: always
+#    networks:
+#      - blogNetwork
 
   elasticsearch:
     container_name: elasticsearch

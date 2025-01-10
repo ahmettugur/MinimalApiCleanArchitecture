@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Dynamic;
+using System.Text;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -17,7 +18,7 @@ namespace MinimalApiCleanArchitecture.LogConsumer
         private readonly IElasticContext _elasticContext;
         
         private IConnection? _connection;
-        private IModel? _channel;
+        private IChannel? _channel;
 
         public ConsumerBackgroundService(ILogger<ConsumerBackgroundService> logger, IOptions<RabbitMqConfigModel> rabbitMqConfig, IElasticContext elasticContext)
         {
@@ -26,43 +27,42 @@ namespace MinimalApiCleanArchitecture.LogConsumer
             _elasticContext = elasticContext;
         }
 
-        public override Task StartAsync(CancellationToken cancellationToken)
+        public override async Task StartAsync(CancellationToken cancellationToken)
         {
             var connectionFactory = new ConnectionFactory()
             {
                 HostName = _rabbitMqConfig.Hostname,
                 UserName = _rabbitMqConfig.Username,
                 Password = _rabbitMqConfig.Password,
-                Port = _rabbitMqConfig.Port,
-                DispatchConsumersAsync = true
+                Port = _rabbitMqConfig.Port
             };
 
-            _connection = connectionFactory.CreateConnection();
-            _channel = _connection.CreateModel();
+            _connection = await connectionFactory.CreateConnectionAsync(cancellationToken);
+            _channel = await _connection.CreateChannelAsync(cancellationToken:cancellationToken);
 
 
-            _channel.ExchangeDeclare("LoggerQueue", ExchangeType.Fanout, true);
-            _channel.QueueDeclare(queue: "LoggerQueue",
+            await _channel.ExchangeDeclareAsync("LoggerQueue", ExchangeType.Fanout, true,cancellationToken:cancellationToken);
+            await _channel.QueueDeclareAsync(queue: "LoggerQueue",
                                  durable: true,
                                  exclusive: false,
                                  autoDelete: false,
-                                 arguments: null);
-            _channel.QueueBind("LoggerQueue", "LoggerQueue", "");
-            _channel.BasicQos(0, 1, false);
+                                 arguments: null,cancellationToken:cancellationToken);
+            await _channel.QueueBindAsync("LoggerQueue", "LoggerQueue", "",cancellationToken:cancellationToken);
+            await _channel.BasicQosAsync(0, 1, false,cancellationToken:cancellationToken);
 
 
             _logger.LogInformation($"Queue [LoggerQueue] is waiting for messages.");
 
 
-            return base.StartAsync(cancellationToken);
+            await base.StartAsync(cancellationToken:cancellationToken);
         }
 
         public override async Task StopAsync(CancellationToken cancellationToken)
         {
             await base.StopAsync(cancellationToken);
-            _connection?.Close();
+            _connection?.CloseAsync(cancellationToken);
             
-            _channel?.Close();
+            _channel?.CloseAsync(cancellationToken);
             _logger.LogInformation("RabbitMQ connection is closed");
 
         }
@@ -72,27 +72,27 @@ namespace MinimalApiCleanArchitecture.LogConsumer
             while (!stoppingToken.IsCancellationRequested)
             {
                 stoppingToken.ThrowIfCancellationRequested();
-                var consumer = new AsyncEventingBasicConsumer(_channel);
-                consumer.Received += async (_, ea) =>
+                var consumer = new AsyncEventingBasicConsumer(_channel!);
+                consumer.ReceivedAsync += async (_, ea) =>
                 {
                     var data = Encoding.UTF8.GetString(ea.Body.Span);
-                    var log = JsonConvert.DeserializeObject(data);
+                    ExpandoObject log = JsonConvert.DeserializeObject<ExpandoObject>(data)!;
                     try
                     {
                         var response = await _elasticContext.IndexCustomAsync($"logstash", log, stoppingToken);
                         if (response.IsValid)
-                            _channel?.BasicAck(ea.DeliveryTag, false);
+                            _channel?.BasicAckAsync(ea.DeliveryTag, false,stoppingToken);
                         else
-                            _channel?.BasicNack(ea.DeliveryTag, false, true);
+                            _channel?.BasicNackAsync(ea.DeliveryTag, false, true,stoppingToken);
                     }
                     catch (Exception)
                     {
-                        _channel?.BasicNack(ea.DeliveryTag, false, true);
+                        _channel?.BasicNackAsync(ea.DeliveryTag, false, true,stoppingToken);
                     }
                 };
-                _channel?.BasicConsume(queue: "LoggerQueue",
+                _channel?.BasicConsumeAsync(queue: "LoggerQueue",
                     autoAck: false,
-                    consumer: consumer);
+                    consumer: consumer,cancellationToken:stoppingToken);
             }
 
             await Task.Delay(100, stoppingToken);

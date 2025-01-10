@@ -1,7 +1,7 @@
-﻿using Elasticsearch.Net;
+﻿using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.IndexManagement;
 using Microsoft.Extensions.Options;
 using MinimalApiCleanArchitecture.LogConsumer.Models;
-using Nest;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -9,7 +9,7 @@ namespace MinimalApiCleanArchitecture.LogConsumer.ElasticContexts;
 
 public class ElasticContext : IElasticContext
 {
-    private readonly ElasticClient _elasticClient;
+    private readonly ElasticsearchClient _elasticClient;
     private readonly int _pingTimeMilliSeconds;
     private const string LogAlias = "_log";
     private readonly JsonSerializerSettings _jsonSettings;
@@ -22,40 +22,45 @@ public class ElasticContext : IElasticContext
         };
 
         _pingTimeMilliSeconds = configuration.Value.PingTimeMilliSeconds;
-        var connectionSettings = new ConnectionSettings(new Uri(configuration.Value.ConnectionString))
-                                    .RequestTimeout(TimeSpan.FromMilliseconds(_pingTimeMilliSeconds))
-                                    .DisableDirectStreaming()
-                                    .DefaultMappingFor<BaseLogModel>(m => m.IdProperty(p => p.RequestID)
-        );
 
-        _elasticClient = new ElasticClient(connectionSettings);
+        var settings = new ElasticsearchClientSettings(new Uri(configuration.Value.ConnectionString))
+            .RequestTimeout(TimeSpan.FromMilliseconds(_pingTimeMilliSeconds))
+            .DisableDirectStreaming();
+
+        _elasticClient = new ElasticsearchClient(settings);
+
+
     }
 
     public IndexResponseModel IndexCustom<T>(string indexName, T document) where T : class?
     {
         indexName = GetIndexName(indexName);
-        var isExists = _elasticClient.Indices.Exists(indexName);
+        var isExistsTask = _elasticClient.Indices.ExistsAsync(indexName);
+        isExistsTask.Wait();
+        var isExists = isExistsTask.Result;
         if (!isExists.Exists)
         {
             var createIndexResponseModel = CreateIndexCustom<T>(indexName).Result;
             if (!createIndexResponseModel.IsValid)
                 return createIndexResponseModel;
         }
-        var response = _elasticClient.LowLevel.Index<IndexResponseModel>(indexName, PostData.String(JsonConvert.SerializeObject(document, Formatting.Indented, _jsonSettings)));
-        return new IndexResponseModel { IsValid = response.IsValid };
+        var responseTask = _elasticClient.IndexAsync(document, idx => idx.Index(indexName));
+        responseTask.Wait();
+        var response = responseTask.Result;
+        return new IndexResponseModel { IsValid = response.IsValidResponse };
     }
     public async Task<IndexResponseModel> IndexCustomAsync<T>(string indexName, T document, CancellationToken ct = default) where T : class?
     {
         indexName = GetIndexName(indexName);
-        var isExists = await _elasticClient.Indices.ExistsAsync(indexName, ct: ct);
+        var isExists = await _elasticClient.Indices.ExistsAsync(indexName, ct);
         if (!isExists.Exists)
         {
             var createIndexResponseModel = await CreateIndexCustom<T>(indexName, ct);
             if (!createIndexResponseModel.IsValid)
                 return createIndexResponseModel;
         }
-        var response = await _elasticClient.LowLevel.IndexAsync<IndexResponseModel>(indexName, PostData.String(JsonConvert.SerializeObject(document, Formatting.Indented, _jsonSettings)), ctx: ct);
-        return new IndexResponseModel { IsValid = response.IsValid };
+        var response = await _elasticClient.IndexAsync(document, idx => idx.Index(indexName), ct);
+        return new IndexResponseModel { IsValid = response.IsValidResponse };
     }
 
     private static string GetIndexName(string indexName)
@@ -72,23 +77,19 @@ public class ElasticContext : IElasticContext
 
     private async Task<IndexResponseModel> CreateIndexCustom<T>(string indexName, CancellationToken ct = default) where T : class?
     {
-        var index = $"{indexName}_000001";
         var indexSettings = new IndexSettings
         {
             NumberOfReplicas = 1,
-            NumberOfShards = 1
-        };
-        var response = await _elasticClient.Indices.CreateAsync(index, x =>
-                                                                  x.RequestConfiguration(r => r.RequestTimeout(TimeSpan.FromMilliseconds(_pingTimeMilliSeconds)))
-                                                                  .Map<T>(m => m.AutoMap())
-                                                                  .InitializeUsing(new IndexState { Settings = indexSettings })
-                                                                  .Aliases(a => a.Alias(indexName.ToString() + LogAlias))
-                                                                  .Aliases(a => a.Alias(indexName, wr => wr.IsWriteIndex(true))), ct);
-        return new IndexResponseModel
-        {
-            IsValid = response.IsValid,
+            NumberOfShards = 1,
+
         };
 
+        var response = await _elasticClient.Indices.CreateAsync(indexName, ct);
+
+        return new IndexResponseModel
+        {
+            IsValid = response.IsValidResponse
+        };
     }
 }
 

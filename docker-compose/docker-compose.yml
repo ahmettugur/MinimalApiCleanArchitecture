@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   clean-architecture-db:
     image: mcr.microsoft.com/mssql/server:2019-latest
@@ -7,23 +5,23 @@ services:
   portainer:
     image: portainer/portainer-ce
 
-  clean-architecture-minimal-api:
-    image: ahmettugur/clean-architecture-minimal-api
-    build:
-      context: ../
-      dockerfile: src/Presentation/MinimalApiCleanArchitecture.MinimalApi/Dockerfile
-
-  clean-architecture-grpc-service:
-    image: ahmettugur/clean-architecture-grpc-service
-    build:
-      context: ../
-      dockerfile: src/Presentation/MinimalApiCleanArchitecture.GrpcService/Dockerfile
-
-  clean-architecture-log-consumer:
-    image: ahmettugur/clean-architecture-log-consumer
-    build:
-      context: ../
-      dockerfile: src/Consumers/MinimalApiCleanArchitecture.LogConsumer/Dockerfile
+#  clean-architecture-minimal-api:
+#    image: ahmettugur/clean-architecture-minimal-api
+#    build:
+#      context: ../
+#      dockerfile: src/Presentation/MinimalApiCleanArchitecture.MinimalApi/Dockerfile
+#
+#  clean-architecture-grpc-service:
+#    image: ahmettugur/clean-architecture-grpc-service
+#    build:
+#      context: ../
+#      dockerfile: src/Presentation/MinimalApiCleanArchitecture.GrpcService/Dockerfile
+#
+#  clean-architecture-log-consumer:
+#    image: ahmettugur/clean-architecture-log-consumer
+#    build:
+#      context: ../
+#      dockerfile: src/Consumers/MinimalApiCleanArchitecture.LogConsumer/Dockerfile
 
   elasticsearch:
     image: ahmettugur/elasticsearch
