@@ -5,6 +5,7 @@ using Google.Protobuf.Collections;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Commands.CreateAuthor;
 using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Commands.DeleteAuthor;
 using MinimalApiCleanArchitecture.Application.Features.AuthorFeature.Commands.UpdateAuthor;
@@ -28,6 +29,7 @@ public class AuthorGrpcServiceTests
     private readonly DeleteAuthorProtoResponse _deleteAuthorProtoResponse;
     private readonly IServiceProvider _serviceProvider;
     private readonly IConfigurationRoot _configuration;
+    private readonly Mock<ILogger<AuthorGrpcService>> _loggerMock;
 
     public AuthorGrpcServiceTests()
     {
@@ -37,12 +39,13 @@ public class AuthorGrpcServiceTests
             .Build();
 
         _authorProtoServiceMock = new Mock<AuthorProtoService.AuthorProtoServiceClient>();
+        _loggerMock = new Mock<ILogger<AuthorGrpcService>>();
         IServiceCollection services = new ServiceCollection();
         services.AddInfrastructureServices(_configuration);
         _serviceProvider = services.BuildServiceProvider();
         _mapper = _serviceProvider.GetService<IMapper>()!;
 
-        _authorGrpcService = new AuthorGrpcService(_authorProtoServiceMock.Object, _mapper);
+        _authorGrpcService = new AuthorGrpcService(_authorProtoServiceMock.Object, _mapper, _loggerMock.Object);
 
         _authorProtoModel = new AuthorProtoModel()
         {
@@ -102,7 +105,7 @@ public class AuthorGrpcServiceTests
             .Setup(x => x.GetAuthorByIdAsync(new GetAuthorByIdProtoRequest {AuthorId = _authorProtoModel.Id}, null,
                 null, default))
             .Returns(mockCall);
-        _authorGrpcService = new AuthorGrpcService(_authorProtoServiceMock.Object, _mapper);
+        _authorGrpcService = new AuthorGrpcService(_authorProtoServiceMock.Object, _mapper, _loggerMock.Object);
 
         var result = await _authorGrpcService.GetAuthorByIdAsync(_authorProtoModel.Id);
 
