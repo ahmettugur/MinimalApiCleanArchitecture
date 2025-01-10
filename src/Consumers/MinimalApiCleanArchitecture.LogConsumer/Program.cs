@@ -1,30 +1,15 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using MinimalApiCleanArchitecture.LogConsumer.ElasticContexts;
+﻿using MinimalApiCleanArchitecture.LogConsumer.ElasticContexts;
 using MinimalApiCleanArchitecture.LogConsumer.Models;
+using MinimalApiCleanArchitecture.LogConsumer;
 
-namespace MinimalApiCleanArchitecture.LogConsumer;
+var builder = Host.CreateApplicationBuilder(args);
 
-public static class Program
-{
-    public static void Main(string[] args)
-    {
-        CreateHostBuilder().Build().Run();
-    }
 
-    private static IHostBuilder CreateHostBuilder() =>
-        Host.CreateDefaultBuilder()
-            .ConfigureServices((context, services) =>
-            {
-                var configuration = new ConfigurationBuilder()
-                    .AddJsonFile($"appsettings.json", reloadOnChange: false, optional: false)
-                    .AddEnvironmentVariables()
-                    .Build();
+builder.Services.Configure<RabbitMqConfigModel>(builder.Configuration.GetSection("RabbitMqConfig"));
+builder.Services.Configure<ElasticSearchConfigModel>(builder.Configuration.GetSection("ElasticSearchConfig"));
+builder.Services.AddSingleton<IElasticContext, ElasticContext>();
 
-                services.Configure<RabbitMqConfigModel>(configuration.GetSection("RabbitMqConfig"));
-                services.Configure<ElasticSearchConfigModel>(configuration.GetSection("ElasticSearchConfig"));
-                services.AddSingleton<IElasticContext, ElasticContext>();
-                services.AddHostedService<ConsumerBackgroundService>();
-            });
-}
+builder.Services.AddHostedService<ConsumerBackgroundService>();
+
+var host = builder.Build();
+host.Run();

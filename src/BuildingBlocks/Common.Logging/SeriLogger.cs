@@ -19,6 +19,12 @@ public static class SeriLogger
             .Enrich.FromLogContext()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .MinimumLevel.Override("System", LogEventLevel.Information)
+            .MinimumLevel.Override("Swashbuckle.AspNetCore", LogEventLevel.Error)
+            .MinimumLevel.Override("Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker", LogEventLevel.Error)
+            .MinimumLevel.Override("Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor", LogEventLevel.Error)
+            .MinimumLevel.Override("Microsoft.AspNetCore.Routing.EndpointMiddleware", LogEventLevel.Error)
+            .MinimumLevel.Override("Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware", LogEventLevel.Error)
+            .MinimumLevel.Override("Microsoft.AspNetCore.Hosting.Diagnostics", LogEventLevel.Error)
             .MinimumLevel.Information()
             .WriteTo.Console()
             .WriteTo.RabbitMQ((clientConfiguration, sinkConfiguration) =>
@@ -28,7 +34,7 @@ public static class SeriLogger
                 clientConfiguration.Exchange = rabbitMqConfigModel.Exchange;
                 clientConfiguration.ExchangeType = rabbitMqConfigModel.ExchangeType;
                 clientConfiguration.DeliveryMode = RabbitMQDeliveryMode.Durable;
-                clientConfiguration.RouteKey = "LoggerQueue";
+                clientConfiguration.RoutingKey = "LoggerQueue";
                 clientConfiguration.Port = rabbitMqConfigModel.Port;
                 clientConfiguration.VHost = rabbitMqConfigModel.VHostname;
                 clientConfiguration.Hostnames.Add(rabbitMqConfigModel.Hostname);
